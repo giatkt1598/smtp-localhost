@@ -89,9 +89,6 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [toasts, setToasts] = useState<
-    Array<{ id: string; title: string; body: string }>
-  >([]);
   const [notificationPermission, setNotificationPermission] =
     useState<NotificationPermission>(
       typeof Notification !== "undefined" ? Notification.permission : "denied",
@@ -122,21 +119,13 @@ function App() {
         setSelectedId(data.items[0].id);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Không tải được inbox");
+      setError(err instanceof Error ? err.message : "Unable to load inbox");
     } finally {
       setLoading(false);
     }
   }
 
   loadMessagesRef.current = loadMessages;
-
-  function pushToast(title: string, body: string) {
-    const id = crypto.randomUUID();
-    setToasts((current) => [...current, { id, title, body }]);
-    window.setTimeout(() => {
-      setToasts((current) => current.filter((toast) => toast.id !== id));
-    }, 4500);
-  }
 
   function updateMessage(message: MessageDetail) {
     setMessages((current) =>
@@ -177,6 +166,30 @@ function App() {
     setSelectedId(id);
   }
 
+  function showBrowserNotification(message: MessageSummary) {
+    if (typeof Notification === "undefined") {
+      return;
+    }
+
+    if (Notification.permission !== "granted") {
+      return;
+    }
+
+    const notification = new Notification(
+      message.subject || "New email received",
+      {
+        body: `${message.from || "Unknown sender"} · ${snippet(message)}`,
+        tag: message.id,
+      },
+    );
+
+    notification.onclick = () => {
+      window.focus();
+      setSelectedId(message.id);
+      notification.close();
+    };
+  }
+
   useEffect(() => {
     void loadMessages();
   }, [deferredQuery]);
@@ -187,18 +200,7 @@ function App() {
     source.addEventListener("mail", (event) => {
       const payload = JSON.parse((event as MessageEvent).data) as MailEvent;
       if (payload.kind === "new-message") {
-        pushToast(
-          payload.message.subject || "New email received",
-          payload.message.from || "Unknown sender",
-        );
-        if (
-          typeof Notification !== "undefined" &&
-          Notification.permission === "granted"
-        ) {
-          new Notification(payload.message.subject || "New email received", {
-            body: payload.message.from || "Unknown sender",
-          });
-        }
+        showBrowserNotification(payload.message);
       }
 
       void loadMessagesRef.current();
@@ -207,6 +209,17 @@ function App() {
     return () => {
       source.close();
     };
+  }, []);
+
+  useEffect(() => {
+    if (
+      typeof Notification !== "undefined" &&
+      Notification.permission === "default"
+    ) {
+      void Notification.requestPermission().then((permission) => {
+        setNotificationPermission(permission);
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -229,7 +242,7 @@ function App() {
       .catch((err) => {
         if (!cancelled) {
           setError(
-            err instanceof Error ? err.message : "Không tải được chi tiết",
+            err instanceof Error ? err.message : "Unable to load message details",
           );
         }
       })
@@ -267,22 +280,6 @@ function App() {
     await setReadState(selectedId, true);
   }
 
-  async function enableNotifications() {
-    if (typeof Notification === "undefined") {
-      pushToast(
-        "Notifications unavailable",
-        "Browser này không hỗ trợ Notification API.",
-      );
-      return;
-    }
-
-    const permission = await Notification.requestPermission();
-    setNotificationPermission(permission);
-    if (permission === "granted") {
-      pushToast("Notifications enabled", "Web notifications đã được bật.");
-    }
-  }
-
   return (
     <div className="app-shell">
       <header className="topbar">
@@ -307,11 +304,13 @@ function App() {
 
         <div className="topbar-actions">
           <span className="pill">{unreadCount} unread</span>
-          <button className="button" onClick={() => void enableNotifications()}>
+          <span className="pill">
             {notificationPermission === "granted"
               ? "Notifications on"
-              : "Enable notifications"}
-          </button>
+              : notificationPermission === "denied"
+                ? "Notifications blocked"
+                : "Waiting for permission"}
+          </span>
           <button className="button" onClick={() => void loadMessages()}>
             Refresh
           </button>
@@ -403,7 +402,7 @@ function App() {
 
           {!selected ? (
             <div className="detail-empty">
-              {detailLoading ? "Loading…" : "Select a email to view details"}
+              {detailLoading ? "Loading…" : "Select an email to view details"}
             </div>
           ) : (
             <>
@@ -493,15 +492,6 @@ function App() {
           {error && <div className="error-banner">{error}</div>}
         </section>
       </main>
-
-      <div className="toast-stack" aria-live="polite" aria-atomic="true">
-        {toasts.map((toast) => (
-          <div className="toast" key={toast.id}>
-            <strong>{toast.title}</strong>
-            <span>{toast.body}</span>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

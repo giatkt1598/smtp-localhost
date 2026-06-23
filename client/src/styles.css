@@ -460,37 +460,6 @@ input {
   color: var(--danger);
 }
 
-.toast-stack {
-  position: fixed;
-  right: 18px;
-  bottom: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 20;
-  pointer-events: none;
-}
-
-.toast {
-  min-width: 260px;
-  max-width: 360px;
-  padding: 12px 14px;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.98);
-  box-shadow: 0 12px 28px rgba(60, 64, 67, 0.16);
-}
-
-.toast strong {
-  display: block;
-  margin-bottom: 4px;
-}
-
-.toast span {
-  color: var(--text-muted);
-  font-size: 13px;
-}
-
 @media (max-width: 1100px) {
   .topbar {
     grid-template-columns: 1fr;
