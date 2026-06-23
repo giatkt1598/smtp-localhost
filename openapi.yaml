@@ -251,16 +251,24 @@ components:
           type: string
         type:
           type: string
-          nullable: true
+          oneOf:
+            - type: string
+            - type: "null"
         content:
           type: string
-          nullable: true
+          oneOf:
+            - type: string
+            - type: "null"
         contentId:
           type: string
-          nullable: true
+          oneOf:
+            - type: string
+            - type: "null"
         disposition:
           type: string
-          nullable: true
+          oneOf:
+            - type: string
+            - type: "null"
         size:
           type: integer
           minimum: 0
@@ -330,10 +338,14 @@ components:
                 type: string
             replyTo:
               type: string
-              nullable: true
+              oneOf:
+                - type: string
+                - type: "null"
             envelopeFrom:
               type: string
-              nullable: true
+              oneOf:
+                - type: string
+                - type: "null"
             envelopeTo:
               type: array
               items:
