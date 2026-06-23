@@ -89,6 +89,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [detailExpanded, setDetailExpanded] = useState(false);
   const [notificationPermission, setNotificationPermission] =
     useState<NotificationPermission>(
       typeof Notification !== "undefined" ? Notification.permission : "denied",
@@ -225,11 +226,13 @@ function App() {
   useEffect(() => {
     if (!selectedId) {
       setSelected(null);
+      setDetailExpanded(false);
       return;
     }
 
     let cancelled = false;
     setDetailLoading(true);
+    setDetailExpanded(false);
 
     fetchJson<MessageDetail>(`/api/messages/${selectedId}`)
       .then((data) => {
@@ -278,6 +281,18 @@ function App() {
   async function markSelectedRead() {
     if (!selectedId) return;
     await setReadState(selectedId, true);
+  }
+
+  function formatAddress(value: string) {
+    const trimmed = value.trim();
+    const match = /^(.*?)(?:\s*<([^>]+)>)?$/.exec(trimmed);
+    if (!match) return { name: trimmed, email: "" };
+    const name = (match[1] || "").trim();
+    const email = (match[2] || "").trim();
+    return {
+      name: name || email || trimmed,
+      email,
+    };
   }
 
   return (
@@ -407,37 +422,87 @@ function App() {
           ) : (
             <>
               <div className="detail-card">
-                <div className="detail-meta-grid">
-                  <div>
-                    <span className="field-label">From</span>
-                    <div>{selected.from || selected.envelopeFrom || "-"}</div>
+                <div className="message-header">
+                  <div className="message-avatar" aria-hidden="true">
+                    {(formatAddress(selected.from || selected.envelopeFrom || "?").name[0] || "?")
+                      .toUpperCase()}
                   </div>
-                  <div>
-                    <span className="field-label">To</span>
-                    <div>
-                      {selected.to.join(", ") ||
-                        selected.envelopeTo.join(", ") ||
-                        "-"}
+                  <div className="message-header-body">
+                    <div className="message-title-row">
+                      <div className="message-sender-line">
+                        <span className="message-sender-name">
+                          {formatAddress(selected.from || selected.envelopeFrom || "-").name}
+                        </span>
+                        {formatAddress(selected.from || selected.envelopeFrom || "-").email && (
+                          <span className="message-sender-email">
+                            &lt;{formatAddress(selected.from || selected.envelopeFrom || "-").email}&gt;
+                          </span>
+                        )}
+                      </div>
+                      <div className="message-meta-inline">
+                        <span className={`status-chip ${selected.isRead ? "muted" : "accent"}`}>
+                          {selected.isRead ? "Read" : "Unread"}
+                        </span>
+                        <span className="message-time-full">
+                          {new Intl.DateTimeFormat("en-US", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          }).format(new Date(selected.createdAt))}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <span className="field-label">Cc</span>
-                    <div>{selected.cc.join(", ") || "-"}</div>
-                  </div>
-                  <div>
-                    <span className="field-label">Bcc</span>
-                    <div>{selected.bcc.join(", ") || "-"}</div>
-                  </div>
-                  <div>
-                    <span className="field-label">Status</span>
-                    <div>{selected.isRead ? "Read" : "Unread"}</div>
-                  </div>
-                  <div>
-                    <span className="field-label">Attachments</span>
-                    <div>
-                      {selected.attachments.length
-                        ? `${selected.attachments.length} file(s)`
-                        : "None"}
+
+                    <div className="message-recipient-row">
+                      <span className="message-recipient-label">
+                        to {selected.to[0] || selected.envelopeTo[0] || "me"}
+                      </span>
+                      <button
+                        className="details-toggle"
+                        onClick={() => setDetailExpanded((current) => !current)}
+                        type="button"
+                      >
+                        {detailExpanded ? "Hide details" : "Show details"}
+                      </button>
+                    </div>
+
+                    <div className={`message-details-panel ${detailExpanded ? "open" : ""}`}>
+                      <div className="message-details-grid">
+                        <div>
+                          <span className="field-label">From</span>
+                          <div>{selected.from || selected.envelopeFrom || "-"}</div>
+                        </div>
+                        <div>
+                          <span className="field-label">To</span>
+                          <div>
+                            {selected.to.join(", ") ||
+                              selected.envelopeTo.join(", ") ||
+                              "-"}
+                          </div>
+                        </div>
+                        <div>
+                          <span className="field-label">Cc</span>
+                          <div>{selected.cc.join(", ") || "-"}</div>
+                        </div>
+                        <div>
+                          <span className="field-label">Bcc</span>
+                          <div>{selected.bcc.join(", ") || "-"}</div>
+                        </div>
+                        <div>
+                          <span className="field-label">Attachments</span>
+                          <div>
+                            {selected.attachments.length
+                              ? `${selected.attachments.length} file(s)`
+                              : "None"}
+                          </div>
+                        </div>
+                        <div>
+                          <span className="field-label">Source</span>
+                          <div>{selected.source === "smtp" ? "SMTP" : "SendGrid API"}</div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
