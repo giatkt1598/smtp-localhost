@@ -1,0 +1,20 @@
+services:
+  smtp-localhost:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "18025:18025"
+      - "11025:11025"
+    environment:
+      HOST: 0.0.0.0
+      HTTP_PORT: 18025
+      SMTP_PORT: 11025
+      MAIL_DATA_DIR: /app/server/data/mailbox
+      MAIL_CHUNK_SIZE: 25
+      MAIL_CHUNK_MAX_BYTES: 524288
+    volumes:
+      - smtp-localhost-data:/app/server/data
+
+volumes:
+  smtp-localhost-data:
