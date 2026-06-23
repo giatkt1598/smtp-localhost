@@ -1,0 +1,453 @@
+openapi: 3.1.0
+info:
+  title: SMTP Localhost API
+  version: 1.0.0
+  description: >
+    HTTP API for SMTP Localhost, a local mail sandbox that exposes a mailbox UI,
+    inbox management endpoints, realtime events, and a SendGrid-compatible mail
+    submission endpoint.
+servers:
+  - url: http://localhost:18025
+    description: Local development server
+tags:
+  - name: System
+  - name: Messages
+  - name: Events
+  - name: SendGrid
+paths:
+  /api/health:
+    get:
+      tags: [System]
+      summary: Check server health
+      operationId: getHealth
+      responses:
+        "200":
+          description: Server is running
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+              example:
+                ok: true
+                smtpPort: 11025
+                httpPort: 18025
+
+  /api/messages:
+    get:
+      tags: [Messages]
+      summary: List messages
+      operationId: listMessages
+      parameters:
+        - name: q
+          in: query
+          required: false
+          description: Optional search query applied to sender, subject, recipients, and raw body.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Message list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageListResponse"
+    delete:
+      tags: [Messages]
+      summary: Clear the inbox
+      operationId: clearMessages
+      responses:
+        "200":
+          description: Inbox cleared
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+
+  /api/messages/{id}:
+    get:
+      tags: [Messages]
+      summary: Get a message by ID
+      operationId: getMessage
+      parameters:
+        - $ref: "#/components/parameters/MessageId"
+      responses:
+        "200":
+          description: Message detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageDetail"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    delete:
+      tags: [Messages]
+      summary: Delete a message by ID
+      operationId: deleteMessage
+      parameters:
+        - $ref: "#/components/parameters/MessageId"
+      responses:
+        "200":
+          description: Message deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /api/messages/{id}/read:
+    patch:
+      tags: [Messages]
+      summary: Mark a message as read
+      operationId: markMessageRead
+      parameters:
+        - $ref: "#/components/parameters/MessageId"
+      responses:
+        "200":
+          description: Message updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageMutationResponse"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /api/messages/{id}/unread:
+    patch:
+      tags: [Messages]
+      summary: Mark a message as unread
+      operationId: markMessageUnread
+      parameters:
+        - $ref: "#/components/parameters/MessageId"
+      responses:
+        "200":
+          description: Message updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageMutationResponse"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /api/events:
+    get:
+      tags: [Events]
+      summary: Stream realtime mailbox events
+      operationId: streamEvents
+      responses:
+        "200":
+          description: Server-sent events stream
+          content:
+            text/event-stream:
+              schema:
+                type: string
+              example: |
+                event: mail
+                data: {"kind":"new-message","message":{"id":"123","source":"smtp","createdAt":"2026-06-23T12:00:00.000Z","isRead":false,"from":"sender@example.com","to":["receiver@example.com"],"subject":"Hello","text":"Hello","html":"","raw":"...","attachments":[]}}
+
+  /v3/mail/send:
+    post:
+      tags: [SendGrid]
+      summary: Send mail using a SendGrid-compatible request
+      operationId: sendMail
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendGridMailRequest"
+            examples:
+              basic:
+                summary: Basic message
+                value:
+                  from:
+                    email: sender@example.com
+                  personalizations:
+                    - to:
+                        - email: receiver@example.com
+                  subject: Test message
+                  content:
+                    - type: text/plain
+                      value: Hello from SMTP Localhost
+                    - type: text/html
+                      value: <p>Hello from SMTP Localhost</p>
+      responses:
+        "202":
+          description: Message accepted
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          description: Missing or empty bearer token
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Missing Bearer token
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: opaque
+
+  parameters:
+    MessageId:
+      name: id
+      in: path
+      required: true
+      description: Message identifier.
+      schema:
+        type: string
+
+  responses:
+    BadRequest:
+      description: Invalid request payload
+      content:
+        text/plain:
+          schema:
+            type: string
+    NotFound:
+      description: Resource not found
+      content:
+        text/plain:
+          schema:
+            type: string
+          example: Message not found
+
+  schemas:
+    OkResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+          const: true
+      required: [ok]
+      additionalProperties: false
+
+    HealthResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+          const: true
+        smtpPort:
+          type: integer
+        httpPort:
+          type: integer
+      required: [ok, smtpPort, httpPort]
+      additionalProperties: false
+
+    MessageSource:
+      type: string
+      enum: [smtp, sendgrid-api]
+
+    AttachmentRecord:
+      type: object
+      properties:
+        filename:
+          type: string
+        type:
+          type: string
+          nullable: true
+        content:
+          type: string
+          nullable: true
+        contentId:
+          type: string
+          nullable: true
+        disposition:
+          type: string
+          nullable: true
+        size:
+          type: integer
+          minimum: 0
+      required: [filename, size]
+      additionalProperties: false
+
+    MessageSummary:
+      type: object
+      properties:
+        id:
+          type: string
+        source:
+          $ref: "#/components/schemas/MessageSource"
+        createdAt:
+          type: string
+          format: date-time
+        isRead:
+          type: boolean
+        from:
+          type: string
+        to:
+          type: array
+          items:
+            type: string
+        subject:
+          type: string
+        text:
+          type: string
+        html:
+          type: string
+        raw:
+          type: string
+        attachments:
+          type: array
+          items:
+            $ref: "#/components/schemas/AttachmentRecord"
+      required:
+        - id
+        - source
+        - createdAt
+        - isRead
+        - from
+        - to
+        - subject
+        - text
+        - html
+        - raw
+        - attachments
+      additionalProperties: false
+
+    MessageDetail:
+      allOf:
+        - $ref: "#/components/schemas/MessageSummary"
+        - type: object
+          properties:
+            cc:
+              type: array
+              items:
+                type: string
+            bcc:
+              type: array
+              items:
+                type: string
+            headers:
+              type: object
+              additionalProperties:
+                type: string
+            replyTo:
+              type: string
+              nullable: true
+            envelopeFrom:
+              type: string
+              nullable: true
+            envelopeTo:
+              type: array
+              items:
+                type: string
+          required: [cc, bcc, headers, envelopeTo]
+          additionalProperties: false
+
+    MessageListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/MessageSummary"
+        total:
+          type: integer
+          minimum: 0
+      required: [items, total]
+      additionalProperties: false
+
+    MessageMutationResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+          const: true
+        message:
+          $ref: "#/components/schemas/MessageDetail"
+      required: [ok, message]
+      additionalProperties: false
+
+    SendGridNameEmail:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+      required: [email]
+      additionalProperties: true
+
+    SendGridAddress:
+      oneOf:
+        - type: string
+        - $ref: "#/components/schemas/SendGridNameEmail"
+
+    SendGridContentItem:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [text/plain, text/html]
+        value:
+          type: string
+      required: [type]
+      additionalProperties: true
+
+    SendGridAttachment:
+      type: object
+      properties:
+        content:
+          type: string
+          description: Base64-encoded attachment content.
+        filename:
+          type: string
+        type:
+          type: string
+        disposition:
+          type: string
+        content_id:
+          type: string
+      additionalProperties: true
+
+    SendGridPersonalization:
+      type: object
+      properties:
+        to:
+          type: array
+          items:
+            $ref: "#/components/schemas/SendGridAddress"
+        cc:
+          type: array
+          items:
+            $ref: "#/components/schemas/SendGridAddress"
+        bcc:
+          type: array
+          items:
+            $ref: "#/components/schemas/SendGridAddress"
+        subject:
+          type: string
+        reply_to:
+          $ref: "#/components/schemas/SendGridAddress"
+      additionalProperties: true
+
+    SendGridMailRequest:
+      type: object
+      properties:
+        from:
+          $ref: "#/components/schemas/SendGridAddress"
+        personalizations:
+          type: array
+          items:
+            $ref: "#/components/schemas/SendGridPersonalization"
+        reply_to:
+          $ref: "#/components/schemas/SendGridAddress"
+        subject:
+          type: string
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/SendGridContentItem"
+        attachments:
+          type: array
+          items:
+            $ref: "#/components/schemas/SendGridAttachment"
+      additionalProperties: true

@@ -7,7 +7,6 @@
     "dev": "node scripts/dev.mjs",
     "build": "npm --prefix client run build && npm --prefix server run build",
     "start": "npm --prefix server run start",
-    "send": "node scripts/test-send-email-by-smtp.js",
     "send:smtp": "node scripts/test-send-email-by-smtp.js",
     "send:http": "node scripts/test-send-email-by-http.js"
   }

@@ -19,21 +19,34 @@ const store = new MessageStore({
   chunkSize: MAIL_CHUNK_SIZE,
   maxChunkBytes: MAIL_CHUNK_MAX_BYTES
 });
+const corsHeaders = {
+  'access-control-allow-origin': '*',
+  'access-control-allow-methods': 'GET,POST,PATCH,DELETE,OPTIONS',
+  'access-control-allow-headers': 'authorization,content-type,accept',
+  'access-control-max-age': '86400'
+};
+
+function withCorsHeaders(headers: http.OutgoingHttpHeaders = {}) {
+  return {
+    ...headers,
+    ...corsHeaders
+  };
+}
 
 function json(res: http.ServerResponse, statusCode: number, body: unknown) {
   const payload = JSON.stringify(body);
-  res.writeHead(statusCode, {
+  res.writeHead(statusCode, withCorsHeaders({
     'content-type': 'application/json; charset=utf-8',
     'content-length': Buffer.byteLength(payload)
-  });
+  }));
   res.end(payload);
 }
 
 function text(res: http.ServerResponse, statusCode: number, body: string, contentType = 'text/plain; charset=utf-8') {
-  res.writeHead(statusCode, {
+  res.writeHead(statusCode, withCorsHeaders({
     'content-type': contentType,
     'content-length': Buffer.byteLength(body)
-  });
+  }));
   res.end(body);
 }
 
@@ -274,11 +287,11 @@ function handleApi(req: http.IncomingMessage, res: http.ServerResponse, pathname
 }
 
 function handleEvents(req: http.IncomingMessage, res: http.ServerResponse) {
-  res.writeHead(200, {
+  res.writeHead(200, withCorsHeaders({
     'content-type': 'text/event-stream; charset=utf-8',
     connection: 'keep-alive',
     'cache-control': 'no-cache, no-transform'
-  });
+  }));
   res.write('\n');
 
   const heartbeat = setInterval(() => {
@@ -306,6 +319,12 @@ const server = http.createServer(async (req, res) => {
   const url = new URL(req.url ?? '/', `http://${host}`);
   const pathname = url.pathname;
 
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204, withCorsHeaders());
+    res.end();
+    return;
+  }
+
   if (req.method === 'POST' && pathname === '/v3/mail/send') {
     return handleSendGridMail(req, res);
   }
@@ -322,7 +341,7 @@ const server = http.createServer(async (req, res) => {
   const staticFile = serveStatic(pathname);
   if (staticFile) {
     const body = fs.readFileSync(staticFile.filePath);
-    res.writeHead(200, { 'content-type': staticFile.contentType });
+    res.writeHead(200, withCorsHeaders({ 'content-type': staticFile.contentType }));
     res.end(body);
     return;
   }
@@ -333,7 +352,7 @@ const server = http.createServer(async (req, res) => {
 
   const indexPath = path.resolve(process.cwd(), '../client/dist/index.html');
   if (fs.existsSync(indexPath)) {
-    res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+    res.writeHead(200, withCorsHeaders({ 'content-type': 'text/html; charset=utf-8' }));
     res.end(fs.readFileSync(indexPath));
     return;
   }
