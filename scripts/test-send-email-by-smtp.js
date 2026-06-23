@@ -10,7 +10,7 @@ const to = process.env.MAIL_TO || "receiver@example.com";
 const subject = process.env.MAIL_SUBJECT || "Test message";
 const body =
   process.env.MAIL_BODY ||
-  `Hello from <b>test-send-email.js</b><br><br>This is a test message.<br><br> Message ID: ${randomUUID()}`;
+  `Hello from <b>test-send-email-by-smtp.js</b><br><br>This is a test message.<br><br> Message ID: ${randomUUID()}`;
 
 function buildMessage() {
   const lines = [
