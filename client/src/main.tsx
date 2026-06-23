@@ -245,7 +245,9 @@ function App() {
       .catch((err) => {
         if (!cancelled) {
           setError(
-            err instanceof Error ? err.message : "Unable to load message details",
+            err instanceof Error
+              ? err.message
+              : "Unable to load message details",
           );
         }
       })
@@ -299,7 +301,7 @@ function App() {
     <div className="app-shell">
       <header className="topbar">
         <div className="brand">
-          <div className="brand-mark">M</div>
+          <img className="brand-mark" src="/favicon.png" alt="SMTP Localhost" />
           <div>
             <div className="brand-kicker">SMTP Localhost</div>
             <div className="brand-title">Mailbox</div>
@@ -424,23 +426,40 @@ function App() {
               <div className="detail-card">
                 <div className="message-header">
                   <div className="message-avatar" aria-hidden="true">
-                    {(formatAddress(selected.from || selected.envelopeFrom || "?").name[0] || "?")
-                      .toUpperCase()}
+                    {(
+                      formatAddress(
+                        selected.from || selected.envelopeFrom || "?",
+                      ).name[0] || "?"
+                    ).toUpperCase()}
                   </div>
                   <div className="message-header-body">
                     <div className="message-title-row">
                       <div className="message-sender-line">
                         <span className="message-sender-name">
-                          {formatAddress(selected.from || selected.envelopeFrom || "-").name}
+                          {
+                            formatAddress(
+                              selected.from || selected.envelopeFrom || "-",
+                            ).name
+                          }
                         </span>
-                        {formatAddress(selected.from || selected.envelopeFrom || "-").email && (
+                        {formatAddress(
+                          selected.from || selected.envelopeFrom || "-",
+                        ).email && (
                           <span className="message-sender-email">
-                            &lt;{formatAddress(selected.from || selected.envelopeFrom || "-").email}&gt;
+                            &lt;
+                            {
+                              formatAddress(
+                                selected.from || selected.envelopeFrom || "-",
+                              ).email
+                            }
+                            &gt;
                           </span>
                         )}
                       </div>
                       <div className="message-meta-inline">
-                        <span className={`status-chip ${selected.isRead ? "muted" : "accent"}`}>
+                        <span
+                          className={`status-chip ${selected.isRead ? "muted" : "accent"}`}
+                        >
                           {selected.isRead ? "Read" : "Unread"}
                         </span>
                         <span className="message-time-full">
@@ -468,11 +487,15 @@ function App() {
                       </button>
                     </div>
 
-                    <div className={`message-details-panel ${detailExpanded ? "open" : ""}`}>
+                    <div
+                      className={`message-details-panel ${detailExpanded ? "open" : ""}`}
+                    >
                       <div className="message-details-grid">
                         <div>
                           <span className="field-label">From</span>
-                          <div>{selected.from || selected.envelopeFrom || "-"}</div>
+                          <div>
+                            {selected.from || selected.envelopeFrom || "-"}
+                          </div>
                         </div>
                         <div>
                           <span className="field-label">To</span>
@@ -500,7 +523,11 @@ function App() {
                         </div>
                         <div>
                           <span className="field-label">Source</span>
-                          <div>{selected.source === "smtp" ? "SMTP" : "SendGrid API"}</div>
+                          <div>
+                            {selected.source === "smtp"
+                              ? "SMTP"
+                              : "SendGrid API"}
+                          </div>
                         </div>
                       </div>
                     </div>
