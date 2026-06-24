@@ -206,6 +206,8 @@ input {
 
 .detail-pane {
   background: var(--surface-2);
+  overflow: auto;
+  min-height: 0;
 }
 
 .mailbox-header,
