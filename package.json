@@ -4,8 +4,6 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev:client": "npm --prefix client run dev",
-    "dev:server": "npm --prefix server run dev",
     "dev": "node scripts/dev.mjs",
     "build": "npm --prefix client run build && npm --prefix server run build",
     "start": "npm --prefix server run start",
