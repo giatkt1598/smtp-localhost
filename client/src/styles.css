@@ -617,8 +617,47 @@ input {
 }
 
 @media (max-width: 720px) {
+  :root {
+    --base-font-size: 14px;
+  }
+
+  html, body, #root {
+    font-size: var(--base-font-size);
+  }
+
+  .brand-kicker {
+    font-size: 10px;
+  }
+
+  .brand-title {
+    font-size: 16px;
+  }
+
+  .topbar {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .search-input {
+    padding: 10px 0;
+  }
+
   .mail-item {
-    grid-template-columns: 10px minmax(0, 1fr);
+    grid-template-columns: 8px minmax(0, 1fr);
+    padding: 10px 12px;
+  }
+
+  .mail-sender,
+  .mail-subject {
+    font-size: 13px;
+  }
+
+  .mail-snippet {
+    font-size: 12px;
+  }
+
+  .mail-time {
+    font-size: 11px;
   }
 
   .mail-tags {
@@ -639,5 +678,28 @@ input {
 
   .message-details-grid {
     grid-template-columns: 1fr;
+  }
+
+  .detail-toolbar {
+    padding: 12px;
+  }
+
+  .detail-card {
+    margin: 12px;
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .rendered-frame {
+    border-radius: 8px;
+  }
+
+  .attachment-section {
+    margin: 8px 0 0;
+  }
+
+  .topbar .button {
+    padding: 8px 10px;
+    font-size: 13px;
   }
 }

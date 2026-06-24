@@ -98,6 +98,26 @@ function App() {
   const htmlFrameRef = useRef<HTMLIFrameElement | null>(null);
   const htmlFrameObserverRef = useRef<ResizeObserver | null>(null);
 
+  const [isMobile, setIsMobile] = useState<boolean>(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(max-width:720px)').matches : false
+  );
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia === 'undefined') return;
+    const mq = window.matchMedia('(max-width:720px)');
+    const handler = (ev: MediaQueryListEvent) => setIsMobile(ev.matches);
+    try {
+      mq.addEventListener('change', handler);
+    } catch {
+      // Safari fallback
+      (mq as any).addListener(handler);
+    }
+    setIsMobile(mq.matches);
+    return () => {
+      try { mq.removeEventListener('change', handler); } catch { (mq as any).removeListener(handler); }
+    };
+  }, []);
+
   const unreadCount = useMemo(
     () => messages.filter((item) => !item.isRead).length,
     [messages],
@@ -167,6 +187,7 @@ function App() {
 
   async function openMessage(id: string) {
     setSelectedId(id);
+    // on mobile, we'll navigate to detail view by setting selectedId (render logic handles view)
   }
 
   function showBrowserNotification(message: MessageSummary) {
@@ -399,6 +420,12 @@ function App() {
         </label>
 
         <div className="topbar-actions">
+          {isMobile && selectedId ? (
+            <button className="button" onClick={() => setSelectedId(null)}>
+              ← Back
+            </button>
+          ) : null}
+
           <span className="pill">{unreadCount} unread</span>
           <span className="pill">
             {notificationPermission === "granted"
@@ -413,55 +440,56 @@ function App() {
         </div>
       </header>
 
-      <main className="content">
-        <section className="mailbox">
-          <div className="mailbox-header">
-            <div>
-              <div className="section-label">Inbox</div>
-              <div className="section-title">{messages.length} messages</div>
-            </div>
-            <button
-              className="button danger"
-              onClick={() => void clearInbox()}
-              disabled={!messages.length}
-            >
-              Clear
-            </button>
-          </div>
-
-          <div className="mail-list">
-            {messages.map((message) => (
+{(!isMobile || !selectedId) && (
+          <section className="mailbox">
+            <div className="mailbox-header">
+              <div>
+                <div className="section-label">Inbox</div>
+                <div className="section-title">{messages.length} messages</div>
+              </div>
               <button
-                key={message.id}
-                className={`mail-item ${message.id === selectedId ? "selected" : ""} ${message.isRead ? "read" : "unread"}`}
-                onClick={() => void openMessage(message.id)}
+                className="button danger"
+                onClick={() => void clearInbox()}
+                disabled={!messages.length}
               >
-                <span className="mail-dot" aria-hidden="true" />
-                <div className="mail-body">
-                  <div className="mail-head">
-                    <span className="mail-sender">
-                      {message.from || "Unknown sender"}
-                    </span>
-                    <span className="mail-time">
-                      {formatDate(message.createdAt)}
-                    </span>
-                  </div>
-                  <div className="mail-subject">
-                    {message.subject || "(no subject)"}
-                  </div>
-                  <div className="mail-snippet">{snippet(message)}</div>
-                </div>
-                <div className="mail-tags">
-                  {!message.isRead && <span className="unread-badge">New</span>}
-                </div>
+                Clear
               </button>
-            ))}
+            </div>
 
-            {!messages.length && !loading && (
-              <div className="empty-state">No email in inbox.</div>
-            )}
-          </div>
-        </section>
+            <div className="mail-list">
+              {messages.map((message) => (
+                <button
+                  key={message.id}
+                  className={`mail-item ${message.id === selectedId ? "selected" : ""} ${message.isRead ? "read" : "unread"}`}
+                  onClick={() => void openMessage(message.id)}
+                >
+                  <span className="mail-dot" aria-hidden="true" />
+                  <div className="mail-body">
+                    <div className="mail-head">
+                      <span className="mail-sender">
+                        {message.from || "Unknown sender"}
+                      </span>
+                      <span className="mail-time">
+                        {formatDate(message.createdAt)}
+                      </span>
+                    </div>
+                    <div className="mail-subject">
+                      {message.subject || "(no subject)"}
+                    </div>
+                    <div className="mail-snippet">{snippet(message)}</div>
+                  </div>
+                  <div className="mail-tags">
+                    {!message.isRead && <span className="unread-badge">New</span>}
+                  </div>
+                </button>
+              ))}
+
+              {!messages.length && !loading && (
+                <div className="empty-state">No email in inbox.</div>
+              )}
+            </div>
+          </section>
+        )}
 
         <section className="detail-pane">
           <div className="detail-toolbar">
