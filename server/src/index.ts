@@ -142,43 +142,87 @@ function applyMessagePayload({
 function buildRawMessage({
   from,
   to,
+  cc,
+  bcc,
   subject,
   text,
   html,
-  replyTo
+  replyTo,
+  attachments
 }: {
   from: string;
   to: string[];
+  cc: string[];
+  bcc: string[];
   subject: string;
   text: string;
   html: string;
   replyTo?: string;
+  attachments: Array<{ filename: string; type?: string; content?: string; contentId?: string; disposition?: string; size: number }>;
 }) {
   const boundary = `boundary-${Date.now().toString(36)}`;
+  const alternativeBoundary = `${boundary}-alternative`;
+  const mixedBoundary = `${boundary}-mixed`;
+  const hasAttachments = attachments.length > 0;
   const headers = [
     `From: ${from}`,
     `To: ${to.join(', ')}`,
+    cc.length ? `Cc: ${cc.join(', ')}` : '',
+    bcc.length ? `Bcc: ${bcc.join(', ')}` : '',
     `Subject: ${subject || '(no subject)'}`,
     `MIME-Version: 1.0`,
     replyTo ? `Reply-To: ${replyTo}` : '',
-    html
-      ? `Content-Type: multipart/alternative; boundary="${boundary}"`
-      : 'Content-Type: text/plain; charset="utf-8"'
+    hasAttachments
+      ? `Content-Type: multipart/mixed; boundary="${mixedBoundary}"`
+      : html
+        ? `Content-Type: multipart/alternative; boundary="${alternativeBoundary}"`
+        : 'Content-Type: text/plain; charset="utf-8"',
   ].filter(Boolean);
 
-  const body = html
+  const messageBody = html
     ? [
-        `--${boundary}`,
+        `--${alternativeBoundary}`,
         'Content-Type: text/plain; charset="utf-8"',
+        'Content-Transfer-Encoding: 8bit',
         '',
         text || '',
-        `--${boundary}`,
+        `--${alternativeBoundary}`,
         'Content-Type: text/html; charset="utf-8"',
+        'Content-Transfer-Encoding: 8bit',
         '',
         html || '',
-        `--${boundary}--`
+        `--${alternativeBoundary}--`
       ].join('\r\n')
     : text || '';
+
+  const body = hasAttachments
+    ? [
+        html
+          ? [
+              `--${mixedBoundary}`,
+              `Content-Type: multipart/alternative; boundary="${alternativeBoundary}"`,
+              '',
+              messageBody,
+            ].join('\r\n')
+          : [
+              `--${mixedBoundary}`,
+              'Content-Type: text/plain; charset="utf-8"',
+              'Content-Transfer-Encoding: 8bit',
+              '',
+              text || ''
+            ].join('\r\n'),
+        ...attachments.map((attachment) => [
+          `--${mixedBoundary}`,
+          `Content-Type: ${attachment.type || 'application/octet-stream'}; name="${attachment.filename || 'attachment'}"`,
+          `Content-Disposition: ${attachment.disposition || 'attachment'}; filename="${attachment.filename || 'attachment'}"`,
+          attachment.contentId ? `Content-ID: <${attachment.contentId}>` : '',
+          'Content-Transfer-Encoding: base64',
+          '',
+          attachment.content || '',
+        ].filter(Boolean).join('\r\n')),
+        `--${mixedBoundary}--`
+      ].join('\r\n')
+    : messageBody;
 
   return `${headers.join('\r\n')}\r\n\r\n${body}`;
 }
@@ -214,10 +258,13 @@ async function handleSendGridMail(req: http.IncomingMessage, res: http.ServerRes
     const raw = buildRawMessage({
       from: defaultFrom,
       to,
+      cc,
+      bcc,
       subject,
       text: plainText,
       html,
-      replyTo
+      replyTo,
+      attachments
     });
     const parsed = parseMimeMessage(raw);
     applyMessagePayload({
@@ -239,7 +286,7 @@ async function handleSendGridMail(req: http.IncomingMessage, res: http.ServerRes
     });
   }
 
-  res.writeHead(202, { 'content-length': '0' });
+  res.writeHead(202, withCorsHeaders({ 'content-length': '0' }));
   res.end();
 }
 

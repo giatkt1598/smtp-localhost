@@ -95,6 +95,8 @@ function App() {
       typeof Notification !== "undefined" ? Notification.permission : "denied",
     );
   const loadMessagesRef = useRef<() => Promise<void>>(async () => undefined);
+  const htmlFrameRef = useRef<HTMLIFrameElement | null>(null);
+  const htmlFrameObserverRef = useRef<ResizeObserver | null>(null);
 
   const unreadCount = useMemo(
     () => messages.filter((item) => !item.isRead).length,
@@ -296,6 +298,71 @@ function App() {
       email,
     };
   }
+
+  function syncHtmlFrameHeight() {
+    const frame = htmlFrameRef.current;
+    if (!frame) return;
+
+    const doc = frame.contentDocument;
+    if (!doc) return;
+
+    const body = doc.body;
+    const html = doc.documentElement;
+    const nextHeight = Math.max(
+      body?.scrollHeight ?? 0,
+      body?.offsetHeight ?? 0,
+      html?.scrollHeight ?? 0,
+      html?.offsetHeight ?? 0,
+      0,
+    );
+
+    frame.style.height = `${nextHeight + 12}px`;
+    frame.style.opacity = "1";
+  }
+
+  useEffect(() => {
+    const frame = htmlFrameRef.current;
+    htmlFrameObserverRef.current?.disconnect();
+    htmlFrameObserverRef.current = null;
+
+    if (tab !== "message" || !selected?.html || !frame) {
+      if (frame) {
+        frame.style.height = "280px";
+      }
+      return;
+    }
+
+    let cancelled = false;
+
+    const attachObserver = () => {
+      if (cancelled) return;
+      syncHtmlFrameHeight();
+
+      const doc = frame.contentDocument;
+      if (!doc?.body || typeof ResizeObserver === "undefined") {
+        return;
+      }
+
+      const observer = new ResizeObserver(() => {
+        syncHtmlFrameHeight();
+      });
+
+      observer.observe(doc.body);
+      observer.observe(doc.documentElement);
+      htmlFrameObserverRef.current = observer;
+      syncHtmlFrameHeight();
+    };
+
+    frame.addEventListener("load", attachObserver, { once: true });
+    requestAnimationFrame(attachObserver);
+
+    return () => {
+      cancelled = true;
+      frame.removeEventListener("load", attachObserver);
+      htmlFrameObserverRef.current?.disconnect();
+      htmlFrameObserverRef.current = null;
+    };
+  }, [selected?.html, tab]);
 
   return (
     <div className="app-shell">
@@ -555,8 +622,10 @@ function App() {
                       <iframe
                         className="rendered-frame"
                         title="Rendered email"
-                        sandbox=""
+                        sandbox="allow-same-origin"
                         srcDoc={selected.html}
+                        ref={htmlFrameRef}
+                        onLoad={() => syncHtmlFrameHeight()}
                       />
                     ) : (
                       <pre className="code-block">

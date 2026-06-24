@@ -519,14 +519,11 @@ input {
 }
 
 .detail-tabs {
-  display: flex;
-  flex-direction: column;
   min-height: 0;
   margin: 18px;
   border: 1px solid var(--border);
   border-radius: 16px;
   background: #fff;
-  overflow: hidden;
 }
 
 .tab-bar {
@@ -565,10 +562,13 @@ input {
 
 .rendered-frame {
   width: 100%;
-  min-height: 380px;
+  height: 0;
+  opacity: 0;
+  display: block;
   border: 1px solid var(--border);
   border-radius: 12px;
   background: #fff;
+  overflow: hidden;
 }
 
 .error-banner {

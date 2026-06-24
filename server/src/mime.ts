@@ -1,4 +1,24 @@
+import { TextDecoder } from 'node:util';
 import type { AttachmentRecord, StoredMessage } from './types.js';
+
+type HeaderParams = {
+  value: string;
+  params: Map<string, string>;
+};
+
+type MimePart = {
+  headers: Map<string, string>;
+  contentType: string;
+  contentTypeRaw: string;
+  contentParams: Map<string, string>;
+  disposition: string;
+  dispositionRaw: string;
+  dispositionParams: Map<string, string>;
+  transferEncoding: string;
+  body: string;
+  content: Buffer;
+  children: MimePart[];
+};
 
 const headerValue = (headers: Map<string, string>, key: string) =>
   headers.get(key.toLowerCase()) ?? '';
@@ -41,12 +61,356 @@ function splitMime(raw: string) {
   return { rawHeaders, body };
 }
 
+function splitHeaderParams(value: string) {
+  const parts: string[] = [];
+  let current = '';
+  let inQuote = false;
+  let escaped = false;
+
+  for (const char of value) {
+    if (escaped) {
+      current += char;
+      escaped = false;
+      continue;
+    }
+
+    if (char === '\\') {
+      current += char;
+      escaped = true;
+      continue;
+    }
+
+    if (char === '"') {
+      inQuote = !inQuote;
+      current += char;
+      continue;
+    }
+
+    if (char === ';' && !inQuote) {
+      parts.push(current.trim());
+      current = '';
+      continue;
+    }
+
+    current += char;
+  }
+
+  if (current.trim()) {
+    parts.push(current.trim());
+  }
+
+  return parts;
+}
+
+function unquote(value: string) {
+  return value.trim().replace(/^"|"$/g, '').replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+}
+
+function decodePercentBytes(value: string) {
+  const bytes: number[] = [];
+  for (let index = 0; index < value.length; index += 1) {
+    if (value[index] === '%' && /^[0-9a-fA-F]{2}$/.test(value.slice(index + 1, index + 3))) {
+      bytes.push(Number.parseInt(value.slice(index + 1, index + 3), 16));
+      index += 2;
+    } else {
+      bytes.push(value.charCodeAt(index));
+    }
+  }
+  return Buffer.from(bytes);
+}
+
+function decodeBuffer(buffer: Buffer, charset = 'utf-8') {
+  const normalized = charset.trim().toLowerCase() || 'utf-8';
+  try {
+    return new TextDecoder(normalized).decode(buffer);
+  } catch {
+    return new TextDecoder('utf-8').decode(buffer);
+  }
+}
+
+function decodeRfc2231Value(value: string) {
+  const match = /^([^']*)'[^']*'(.*)$/.exec(value);
+  if (!match) {
+    return decodeMimeWords(value);
+  }
+
+  return decodeBuffer(decodePercentBytes(match[2]), match[1] || 'utf-8');
+}
+
+function decodeQuotedPrintable(value: string) {
+  const normalized = value.replace(/=\r?\n/g, '');
+  const bytes: number[] = [];
+
+  for (let index = 0; index < normalized.length; index += 1) {
+    const char = normalized[index];
+    if (char !== '=') {
+      bytes.push(char.charCodeAt(0));
+      continue;
+    }
+
+    const next = normalized.slice(index + 1, index + 3);
+    if (/^[0-9a-fA-F]{2}$/.test(next)) {
+      bytes.push(Number.parseInt(next, 16));
+      index += 2;
+      continue;
+    }
+
+    bytes.push('='.charCodeAt(0));
+  }
+
+  return Buffer.from(bytes);
+}
+
+function decodeMimeWords(value: string) {
+  return value.replace(/=\?([^?]+)\?([bqBQ])\?([^?]*)\?=/g, (_match, charset: string, encoding: string, payload: string) => {
+    try {
+      const buffer = encoding.toUpperCase() === 'B'
+        ? Buffer.from(payload.replace(/\s+/g, ''), 'base64')
+        : decodeQuotedPrintable(payload.replace(/_/g, ' '));
+      return decodeBuffer(buffer, charset);
+    } catch {
+      return _match;
+    }
+  });
+}
+
+function parseHeaderWithParams(value: string): HeaderParams {
+  const [rawValue = '', ...params] = splitHeaderParams(value);
+  const parsedParams = new Map<string, string>();
+
+  for (const param of params) {
+    const index = param.indexOf('=');
+    if (index === -1) continue;
+    const name = param.slice(0, index).trim().toLowerCase();
+    const rawParamValue = unquote(param.slice(index + 1));
+    parsedParams.set(
+      name.replace(/\*$/, ''),
+      name.endsWith('*') ? decodeRfc2231Value(rawParamValue) : decodeMimeWords(rawParamValue)
+    );
+  }
+
+  return {
+    value: rawValue.trim().toLowerCase(),
+    params: parsedParams
+  };
+}
+
 function parseAddressList(value: string) {
-  return value
-    .split(',')
-    .map((entry) => entry.trim())
-    .filter(Boolean)
-    .map((entry) => entry.replace(/^<|>$/g, '').trim());
+  const entries: string[] = [];
+  let current = '';
+  let inQuote = false;
+  let inAngle = false;
+  let escaped = false;
+
+  for (const char of value) {
+    if (escaped) {
+      current += char;
+      escaped = false;
+      continue;
+    }
+
+    if (char === '\\') {
+      current += char;
+      escaped = true;
+      continue;
+    }
+
+    if (char === '"') {
+      inQuote = !inQuote;
+      current += char;
+      continue;
+    }
+
+    if (char === '<' && !inQuote) {
+      inAngle = true;
+      current += char;
+      continue;
+    }
+
+    if (char === '>' && !inQuote) {
+      inAngle = false;
+      current += char;
+      continue;
+    }
+
+    if (char === ',' && !inQuote && !inAngle) {
+      if (current.trim()) entries.push(current.trim());
+      current = '';
+      continue;
+    }
+
+    current += char;
+  }
+
+  if (current.trim()) entries.push(current.trim());
+
+  return entries.map((entry) => decodeMimeWords(entry).replace(/^"([^"]+)"\s*</, '$1 <').trim());
+}
+
+function decodeBodyBuffer(rawBody: string, transferEncoding: string) {
+  const encoding = transferEncoding.trim().toLowerCase();
+
+  if (encoding === 'base64') {
+    return Buffer.from(rawBody.replace(/\s+/g, ''), 'base64');
+  }
+
+  if (encoding === 'quoted-printable') {
+    return decodeQuotedPrintable(rawBody);
+  }
+
+  return Buffer.from(rawBody, 'utf8');
+}
+
+function decodeTextBody(rawBody: string, contentType: HeaderParams, transferEncoding: string) {
+  return decodeBuffer(decodeBodyBuffer(rawBody, transferEncoding), contentType.params.get('charset') || 'utf-8');
+}
+
+function parseMultipart(body: string, boundary: string) {
+  const marker = `--${boundary}`;
+  const terminator = `${marker}--`;
+  const parts: string[] = [];
+  let current = '';
+  let collecting = false;
+
+  for (const line of body.replace(/\r\n/g, '\n').split('\n')) {
+    if (line === marker || line === terminator) {
+      if (collecting && current.trim()) {
+        parts.push(current.replace(/\n$/, ''));
+      }
+      current = '';
+      collecting = line !== terminator;
+      if (line === terminator) break;
+      continue;
+    }
+
+    if (!collecting) continue;
+    current += `${line}\n`;
+  }
+
+  return parts;
+}
+
+function parsePart(raw: string): MimePart {
+  const { rawHeaders, body } = splitMime(raw);
+  const headers = parseHeaders(rawHeaders);
+  const contentTypeRaw = headerValue(headers, 'content-type') || 'text/plain; charset=utf-8';
+  const contentType = parseHeaderWithParams(contentTypeRaw);
+  const dispositionRaw = headerValue(headers, 'content-disposition');
+  const disposition = parseHeaderWithParams(dispositionRaw);
+  const transferEncoding = headerValue(headers, 'content-transfer-encoding');
+  const type = contentType.value || 'text/plain';
+  const children = type.startsWith('multipart/')
+    ? parseMultipart(body, contentType.params.get('boundary') || '').map(parsePart)
+    : [];
+
+  return {
+    headers,
+    contentType: type,
+    contentTypeRaw,
+    contentParams: contentType.params,
+    disposition: disposition.value,
+    dispositionRaw,
+    dispositionParams: disposition.params,
+    transferEncoding,
+    body,
+    content: children.length ? Buffer.alloc(0) : decodeBodyBuffer(body, transferEncoding),
+    children
+  };
+}
+
+function isAttachment(part: MimePart) {
+  return Boolean(
+    !part.children.length &&
+    (
+      part.disposition === 'attachment' ||
+      part.dispositionParams.has('filename') ||
+      part.contentParams.has('name') ||
+      (part.disposition === 'inline' && headerValue(part.headers, 'content-id'))
+    )
+  );
+}
+
+function attachmentFilename(part: MimePart) {
+  return (
+    part.dispositionParams.get('filename') ||
+    part.contentParams.get('name') ||
+    headerValue(part.headers, 'content-id').replace(/^<|>$/g, '') ||
+    'attachment'
+  );
+}
+
+function collectAttachments(part: MimePart, attachments: AttachmentRecord[] = []) {
+  if (isAttachment(part)) {
+    attachments.push({
+      filename: attachmentFilename(part),
+      type: part.contentType,
+      content: part.content.toString('base64'),
+      contentId: headerValue(part.headers, 'content-id').replace(/^<|>$/g, '') || undefined,
+      disposition: part.dispositionRaw || undefined,
+      size: part.content.byteLength
+    });
+  }
+
+  for (const child of part.children) {
+    collectAttachments(child, attachments);
+  }
+
+  return attachments;
+}
+
+function collectBodies(part: MimePart): { text: string; html: string } {
+  if (part.children.length) {
+    let text = '';
+    let html = '';
+
+    for (const child of part.children) {
+      const nested = collectBodies(child);
+      if (!text && nested.text) text = nested.text;
+      if (!html && nested.html) html = nested.html;
+    }
+
+    return { text, html };
+  }
+
+  if (isAttachment(part)) {
+    return { text: '', html: '' };
+  }
+
+  if (part.contentType === 'text/html') {
+    return {
+      text: '',
+      html: decodeTextBody(part.body, { value: part.contentType, params: part.contentParams }, part.transferEncoding).trim()
+    };
+  }
+
+  if (part.contentType === 'text/plain' || part.contentType.startsWith('text/')) {
+    return {
+      text: decodeTextBody(part.body, { value: part.contentType, params: part.contentParams }, part.transferEncoding).trim(),
+      html: ''
+    };
+  }
+
+  return { text: '', html: '' };
+}
+
+function rewriteCidLinks(html: string, attachments: AttachmentRecord[]) {
+  const byContentId = new Map(
+    attachments
+      .filter((attachment) => attachment.contentId && attachment.content)
+      .map((attachment) => [
+        attachment.contentId!.toLowerCase(),
+        `data:${attachment.type || 'application/octet-stream'};base64,${attachment.content}`
+      ])
+  );
+
+  return html.replace(/cid:([^"')\s>]+)/gi, (match, rawContentId: string) => {
+    const contentId = decodeURIComponent(rawContentId).replace(/^<|>$/g, '').toLowerCase();
+    return byContentId.get(contentId) ?? match;
+  });
+}
+
+function decodedHeaders(headers: Map<string, string>) {
+  return new Map(Array.from(headers.entries()).map(([key, value]) => [key, decodeMimeWords(value)]));
 }
 
 function decodeBase64(value: string) {
@@ -57,114 +421,24 @@ function decodeBase64(value: string) {
   }
 }
 
-function parseContentType(contentType: string) {
-  const [type = 'text/plain', ...params] = contentType.split(';').map((item) => item.trim());
-  const attributes = new Map<string, string>();
-  for (const param of params) {
-    const index = param.indexOf('=');
-    if (index === -1) continue;
-    const name = param.slice(0, index).trim().toLowerCase();
-    const value = param.slice(index + 1).trim().replace(/^"|"$/g, '');
-    attributes.set(name, value);
-  }
-  return { type: type.toLowerCase(), attributes };
-}
-
-function parseMultipart(body: string, boundary: string) {
-  const marker = `--${boundary}`;
-  const terminator = `${marker}--`;
-  const parts: string[] = [];
-  let current = '';
-
-  for (const line of body.replace(/\r\n/g, '\n').split('\n')) {
-    if (line === marker || line === terminator) {
-      if (current.trim()) {
-        parts.push(current.trim());
-      }
-      current = '';
-      if (line === terminator) break;
-      continue;
-    }
-    if (current) {
-      current += '\n';
-    }
-    current += line;
-  }
-
-  return parts;
-}
-
-function extractBodyParts(body: string, contentType: string): { text: string; html: string } {
-  const { type, attributes } = parseContentType(contentType);
-
-  if (type.startsWith('multipart/')) {
-    const boundary = attributes.get('boundary');
-    if (!boundary) {
-      return { text: '', html: '' };
-    }
-
-    let text = '';
-    let html = '';
-
-    for (const part of parseMultipart(body, boundary)) {
-      const split = splitMime(part);
-      const headers = parseHeaders(split.rawHeaders);
-      const nested = extractBodyParts(split.body, headerValue(headers, 'content-type') || 'text/plain');
-      const nestedType = parseContentType(headerValue(headers, 'content-type') || 'text/plain').type;
-
-      if (!text && nested.text && nestedType.includes('text/plain')) {
-        text = nested.text;
-      }
-      if (!html && nested.html && nestedType.includes('text/html')) {
-        html = nested.html;
-      }
-      if (!text && nestedType === 'text/plain') {
-        text = split.body.trim();
-      }
-      if (!html && nestedType === 'text/html') {
-        html = split.body.trim();
-      }
-    }
-
-    return { text, html };
-  }
-
-  if (type === 'text/html') {
-    return { text: '', html: body.trim() };
-  }
-
-  return { text: body.trim(), html: '' };
-}
-
 export function parseMimeMessage(raw: string) {
-  const { rawHeaders, body } = splitMime(raw);
-  const headers = parseHeaders(rawHeaders);
-  const contentType = headerValue(headers, 'content-type') || 'text/plain';
-  const extracted = extractBodyParts(body, contentType);
-  const attachments: AttachmentRecord[] = [];
-  const disposition = headerValue(headers, 'content-disposition');
-
-  if (disposition.toLowerCase().includes('attachment')) {
-    attachments.push({
-      filename: /filename="?([^";]+)"?/i.exec(disposition)?.[1] ?? 'attachment',
-      type: contentType,
-      content: body.trim(),
-      size: Buffer.byteLength(body)
-    });
-  }
+  const root = parsePart(raw);
+  const headers = decodedHeaders(root.headers);
+  const bodies = collectBodies(root);
+  const attachments = collectAttachments(root);
 
   return {
     headers,
-    from: headerValue(headers, 'from'),
-    to: parseAddressList(headerValue(headers, 'to')),
-    cc: parseAddressList(headerValue(headers, 'cc')),
-    bcc: parseAddressList(headerValue(headers, 'bcc')),
-    replyTo: headerValue(headers, 'reply-to'),
-    subject: headerValue(headers, 'subject'),
-    text: extracted.text,
-    html: extracted.html,
+    from: decodeMimeWords(headerValue(root.headers, 'from')),
+    to: parseAddressList(headerValue(root.headers, 'to')),
+    cc: parseAddressList(headerValue(root.headers, 'cc')),
+    bcc: parseAddressList(headerValue(root.headers, 'bcc')),
+    replyTo: decodeMimeWords(headerValue(root.headers, 'reply-to')),
+    subject: decodeMimeWords(headerValue(root.headers, 'subject')),
+    text: bodies.text,
+    html: rewriteCidLinks(bodies.html, attachments),
     attachments,
-    contentType: contentType.toLowerCase()
+    contentType: root.contentType
   };
 }
 
