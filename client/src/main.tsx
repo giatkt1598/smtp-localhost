@@ -440,6 +440,8 @@ function App() {
         </div>
       </header>
 
+      <main className="content">
+
 {(!isMobile || !selectedId) && (
           <section className="mailbox">
             <div className="mailbox-header">
