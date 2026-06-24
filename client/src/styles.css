@@ -390,6 +390,20 @@ input {
   border: 1px solid var(--border);
 }
 
+.attachment-list {
+  margin: 0;
+  padding: 0;
+}
+
+.attachment-item a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.attachment-item a:hover {
+  text-decoration: underline;
+}
+
 .message-header {
   display: flex;
   align-items: flex-start;

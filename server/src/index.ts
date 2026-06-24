@@ -330,6 +330,38 @@ function handleApi(req: http.IncomingMessage, res: http.ServerResponse, pathname
     return json(res, 200, { ok: true, message: updated });
   }
 
+  const attachMatch = /^\/api\/messages\/([^/]+)\/attachments\/(\d+)$/.exec(pathname);
+  if (attachMatch && req.method === 'GET') {
+    const message = store.get(attachMatch[1]);
+    if (!message) {
+      return text(res, 404, 'Message not found');
+    }
+
+    const idx = Number(attachMatch[2]);
+    const attachment = Array.isArray(message.attachments) ? message.attachments[idx] : undefined;
+    if (!attachment) {
+      return text(res, 404, 'Attachment not found');
+    }
+
+    if (!attachment.content) {
+      return text(res, 404, 'Attachment has no content');
+    }
+
+    try {
+      const buffer = Buffer.from(attachment.content, 'base64');
+      const filename = attachment.filename || 'attachment';
+      res.writeHead(200, withCorsHeaders({
+        'content-type': attachment.type || 'application/octet-stream',
+        'content-length': buffer.length,
+        'content-disposition': `attachment; filename="${String(filename).replace(/\"/g, '\\\"')}"`
+      }));
+      res.end(buffer);
+      return;
+    } catch (err) {
+      return text(res, 500, 'Unable to decode attachment');
+    }
+  }
+
   return false;
 }
 
