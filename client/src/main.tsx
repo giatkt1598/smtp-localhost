@@ -34,6 +34,8 @@ type MessageDetail = MessageSummary & {
 type ListResponse = {
   items: MessageSummary[];
   total: number;
+  page?: number;
+  perPage?: number;
 };
 
 type Tab = "message" | "plain" | "raw" | "json";
@@ -98,6 +100,10 @@ function App() {
   const htmlFrameRef = useRef<HTMLIFrameElement | null>(null);
   const htmlFrameObserverRef = useRef<ResizeObserver | null>(null);
 
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const PER_PAGE = 100;
+
   const [isMobile, setIsMobile] = useState<boolean>(() =>
     typeof window !== 'undefined' ? window.matchMedia('(max-width:720px)').matches : false
   );
@@ -127,14 +133,16 @@ function App() {
     [messages, selectedId],
   );
 
-  async function loadMessages() {
+  async function loadMessages(requestedPage = 1, append = false) {
     setLoading(true);
     setError(null);
     try {
       const data = await fetchJson<ListResponse>(
-        `/api/messages?q=${encodeURIComponent(deferredQuery)}`,
+        `/api/messages?q=${encodeURIComponent(deferredQuery)}&page=${requestedPage}&perPage=${PER_PAGE}`,
       );
-      setMessages(data.items);
+      setTotal(data.total ?? 0);
+      setPage(requestedPage);
+      setMessages((current) => (append ? [...current, ...data.items] : data.items));
       if (!data.items.length) {
         setSelectedId(null);
         setSelected(null);
@@ -148,7 +156,13 @@ function App() {
     }
   }
 
-  loadMessagesRef.current = loadMessages;
+  loadMessagesRef.current = () => loadMessages(1, false);
+
+  async function loadMore() {
+    if (loading) return;
+    if (messages.length >= total) return;
+    await loadMessages(page + 1, true);
+  }
 
   function updateMessage(message: MessageDetail) {
     setMessages((current) =>
@@ -215,7 +229,8 @@ function App() {
   }
 
   useEffect(() => {
-    void loadMessages();
+    setPage(1);
+    void loadMessages(1, false);
   }, [deferredQuery]);
 
   useEffect(() => {
@@ -434,7 +449,7 @@ function App() {
                 ? "Notifications blocked"
                 : "Waiting for permission"}
           </span>
-          <button className="button" onClick={() => void loadMessages()}>
+          <button className="button" onClick={() => void loadMessages(1, false)}>
             Refresh
           </button>
         </div>
@@ -488,6 +503,14 @@ function App() {
 
               {!messages.length && !loading && (
                 <div className="empty-state">No email in inbox.</div>
+              )}
+
+              {messages.length < total && (
+                <div style={{ padding: 12, textAlign: 'center' }}>
+                  <button className="button" onClick={() => void loadMore()} disabled={loading}>
+                    {loading ? 'Loading…' : 'Load more'}
+                  </button>
+                </div>
               )}
             </div>
           </section>

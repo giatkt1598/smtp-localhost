@@ -296,7 +296,14 @@ function handleApi(req: http.IncomingMessage, res: http.ServerResponse, pathname
   }
 
   if (req.method === 'GET' && pathname === '/api/messages') {
-    return json(res, 200, store.list(searchParams.get('q') ?? ''));
+    const q = searchParams.get('q') ?? '';
+    const page = Math.max(1, Number(searchParams.get('page') ?? '1'));
+    const perPage = Math.max(1, Number(searchParams.get('perPage') ?? '100'));
+    const list = store.list(q);
+    const total = list.total;
+    const start = (page - 1) * perPage;
+    const items = list.items.slice(start, start + perPage);
+    return json(res, 200, { items, total, page, perPage });
   }
 
   if (req.method === 'DELETE' && pathname === '/api/messages') {
