@@ -300,8 +300,8 @@ function App() {
   }
 
   function formatBytes(bytes: number) {
-    if (!bytes) return '';
-    const units = ['B','KB','MB','GB'];
+    if (!bytes) return "";
+    const units = ["B", "KB", "MB", "GB"];
     let i = 0;
     let v = bytes;
     while (v >= 1024 && i < units.length - 1) {
@@ -328,7 +328,7 @@ function App() {
       0,
     );
 
-    frame.style.height = `${nextHeight + 12}px`;
+    frame.style.height = `${nextHeight}px`;
     frame.style.opacity = "1";
   }
 
@@ -614,8 +614,6 @@ function App() {
                 </div>
               </div>
 
-
-
               <div className="detail-tabs">
                 <div className="tab-bar">
                   {(["message", "plain", "raw", "json"] as Tab[]).map(
@@ -631,54 +629,103 @@ function App() {
                   )}
                 </div>
                 <div className="tab-content">
-                  {tab === "message" && (
-                      selected.html ? (
-                        <>
-                          <iframe
-                            className="rendered-frame"
-                            title="Rendered email"
-                            sandbox="allow-same-origin"
-                            srcDoc={selected.html}
-                            ref={htmlFrameRef}
-                            onLoad={() => syncHtmlFrameHeight()}
-                          />
+                  {tab === "message" &&
+                    (selected.html ? (
+                      <>
+                        <iframe
+                          className="rendered-frame"
+                          title="Rendered email"
+                          sandbox="allow-same-origin"
+                          srcDoc={selected.html}
+                          ref={htmlFrameRef}
+                          onLoad={() => syncHtmlFrameHeight()}
+                        />
 
-                          {selected.attachments.length > 0 && (
-                            <div className="attachment-section" style={{ borderTop: '1px dashed var(--border)', marginTop: 12, paddingTop: 12 }}>
-                              <div className="field-label">Attachments</div>
-                              <ul className="attachment-list" style={{ listStyle: 'none', padding: 0, margin: '8px 0 0' }}>
-                                {selected.attachments.map((att, i) => (
-                                  <li key={i} className="attachment-item" style={{ marginBottom: 8 }}>
-                                    <a href={`/api/messages/${selected.id}/attachments/${i}`} download={att.filename}>
-                                      {att.filename} {att.size ? `(${formatBytes(att.size)})` : ''}
-                                    </a>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <>
-                          <pre className="code-block">{selected.text || "(empty)"}</pre>
+                        {selected.attachments.length > 0 && (
+                          <div
+                            className="attachment-section"
+                            style={{
+                              borderTop: "1px dashed var(--border)",
+                              marginTop: 12,
+                              paddingTop: 12,
+                            }}
+                          >
+                            <div className="field-label">Attachments</div>
+                            <ul
+                              className="attachment-list"
+                              style={{
+                                listStyle: "none",
+                                padding: 0,
+                                margin: "8px 0 0",
+                              }}
+                            >
+                              {selected.attachments.map((att, i) => (
+                                <li
+                                  key={i}
+                                  className="attachment-item"
+                                  style={{ marginBottom: 8 }}
+                                >
+                                  <a
+                                    href={`/api/messages/${selected.id}/attachments/${i}`}
+                                    download={att.filename}
+                                  >
+                                    {att.filename}{" "}
+                                    {att.size
+                                      ? `(${formatBytes(att.size)})`
+                                      : ""}
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <pre className="code-block">
+                          {selected.text || "(empty)"}
+                        </pre>
 
-                          {selected.attachments.length > 0 && (
-                            <div className="attachment-section" style={{ borderTop: '1px dashed var(--border)', marginTop: 12, paddingTop: 12 }}>
-                              <div className="field-label">Attachments</div>
-                              <ul className="attachment-list" style={{ listStyle: 'none', padding: 0, margin: '8px 0 0' }}>
-                                {selected.attachments.map((att, i) => (
-                                  <li key={i} className="attachment-item" style={{ marginBottom: 8 }}>
-                                    <a href={`/api/messages/${selected.id}/attachments/${i}`} download={att.filename}>
-                                      {att.filename} {att.size ? `(${formatBytes(att.size)})` : ''}
-                                    </a>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                        </>
-                      )
-                    )}
+                        {selected.attachments.length > 0 && (
+                          <div
+                            className="attachment-section"
+                            style={{
+                              borderTop: "1px dashed var(--border)",
+                              marginTop: 12,
+                              paddingTop: 12,
+                            }}
+                          >
+                            <div className="field-label">Attachments</div>
+                            <ul
+                              className="attachment-list"
+                              style={{
+                                listStyle: "none",
+                                padding: 0,
+                                margin: "8px 0 0",
+                              }}
+                            >
+                              {selected.attachments.map((att, i) => (
+                                <li
+                                  key={i}
+                                  className="attachment-item"
+                                  style={{ marginBottom: 8 }}
+                                >
+                                  <a
+                                    href={`/api/messages/${selected.id}/attachments/${i}`}
+                                    download={att.filename}
+                                  >
+                                    {att.filename}{" "}
+                                    {att.size
+                                      ? `(${formatBytes(att.size)})`
+                                      : ""}
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </>
+                    ))}
                   {tab === "plain" && (
                     <pre className="code-block">
                       {selected.text || "(empty)"}

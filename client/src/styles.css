@@ -581,7 +581,7 @@ input {
   height: 0;
   opacity: 0;
   display: block;
-  border: 1px solid var(--border);
+  border: none;
   border-radius: 12px;
   background: #fff;
   overflow: hidden;
