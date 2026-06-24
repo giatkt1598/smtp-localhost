@@ -614,23 +614,7 @@ function App() {
                 </div>
               </div>
 
-              {selected.attachments.length > 0 && (
-                <div className="detail-card" style={{ margin: '18px' }}>
-                  <div className="field-label">Attachments</div>
-                  <ul className="attachment-list" style={{ listStyle: 'none', padding: 0, margin: '12px 0 0' }}>
-                    {selected.attachments.map((att, i) => (
-                      <li key={i} className="attachment-item" style={{ marginBottom: 8 }}>
-                        <a
-                          href={`/api/messages/${selected.id}/attachments/${i}`}
-                          download={att.filename}
-                        >
-                          {att.filename} {att.size ? `(${formatBytes(att.size)})` : ''}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+
 
               <div className="detail-tabs">
                 <div className="tab-bar">
@@ -647,21 +631,54 @@ function App() {
                   )}
                 </div>
                 <div className="tab-content">
-                  {tab === "message" &&
-                    (selected.html ? (
-                      <iframe
-                        className="rendered-frame"
-                        title="Rendered email"
-                        sandbox="allow-same-origin"
-                        srcDoc={selected.html}
-                        ref={htmlFrameRef}
-                        onLoad={() => syncHtmlFrameHeight()}
-                      />
-                    ) : (
-                      <pre className="code-block">
-                        {selected.text || "(empty)"}
-                      </pre>
-                    ))}
+                  {tab === "message" && (
+                      selected.html ? (
+                        <>
+                          <iframe
+                            className="rendered-frame"
+                            title="Rendered email"
+                            sandbox="allow-same-origin"
+                            srcDoc={selected.html}
+                            ref={htmlFrameRef}
+                            onLoad={() => syncHtmlFrameHeight()}
+                          />
+
+                          {selected.attachments.length > 0 && (
+                            <div className="attachment-section" style={{ borderTop: '1px dashed var(--border)', marginTop: 12, paddingTop: 12 }}>
+                              <div className="field-label">Attachments</div>
+                              <ul className="attachment-list" style={{ listStyle: 'none', padding: 0, margin: '8px 0 0' }}>
+                                {selected.attachments.map((att, i) => (
+                                  <li key={i} className="attachment-item" style={{ marginBottom: 8 }}>
+                                    <a href={`/api/messages/${selected.id}/attachments/${i}`} download={att.filename}>
+                                      {att.filename} {att.size ? `(${formatBytes(att.size)})` : ''}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          <pre className="code-block">{selected.text || "(empty)"}</pre>
+
+                          {selected.attachments.length > 0 && (
+                            <div className="attachment-section" style={{ borderTop: '1px dashed var(--border)', marginTop: 12, paddingTop: 12 }}>
+                              <div className="field-label">Attachments</div>
+                              <ul className="attachment-list" style={{ listStyle: 'none', padding: 0, margin: '8px 0 0' }}>
+                                {selected.attachments.map((att, i) => (
+                                  <li key={i} className="attachment-item" style={{ marginBottom: 8 }}>
+                                    <a href={`/api/messages/${selected.id}/attachments/${i}`} download={att.filename}>
+                                      {att.filename} {att.size ? `(${formatBytes(att.size)})` : ''}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </>
+                      )
+                    )}
                   {tab === "plain" && (
                     <pre className="code-block">
                       {selected.text || "(empty)"}
