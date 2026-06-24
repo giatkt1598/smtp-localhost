@@ -1,0 +1,1071 @@
+Delivered-To: giatkt1598@gmail.com
+Received: by 2002:ac9:7184:0:b0:619:5c6c:7a8a with SMTP id q4csp480611ocn;
+        Fri, 27 Feb 2026 02:24:20 -0800 (PST)
+X-Received: by 2002:a05:6a00:94c1:b0:823:1276:9a86 with SMTP id d2e1a72fcca58-8274d9ebcdcmr2610736b3a.39.1772187860369;
+        Fri, 27 Feb 2026 02:24:20 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772187860; cv=none;
+        d=google.com; s=arc-20240605;
+        b=KK4CvYBzZc0QaCEt+LUXVfxijzpdnN/yMwOcIppELbVCOZ1fwG3JgiDSsOxYIjBw7I
+         wMReJWW3HdguR7rQGR2fzVbJtFReqVhu3Jgjttl4sCp+7WpIR6gyN1ufM3CQ4HSB0CRk
+         UacaIJArJ21JsNnbdlN5lSjcIYAtzX8mMYVxRIB7xSFMGWrZSnZ5dJhcYYBbTZKjyYl4
+         JzlzS5QqEQUo6gB+TBdWTks8XN8gHPanqzUPJF7lcR+r4aVpJFgQMHQoFzkLbr9rg3yC
+         eyEPBR4Fj/iuVCVwl2y60LakBUrr9AE4bcdI3GWoQu5zN8y/BPd1HM9RsE0wjFqSexvQ
+         rpjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=list-unsubscribe-post:list-unsubscribe:to:subject:message-id
+         :mime-version:from:date:dkim-signature:dkim-signature;
+        bh=IcLrxKsHu+gKm/Rqj/VSvwVXfC6BpfYCRCwav5Z3Was=;
+        fh=3QcKkYi9aKAeDiuOrdZbxMGa9vR4o0wNytOFA+CALz8=;
+        b=ReYBUkU018WPyNcNBOYOLlQebyZt0mFwjb4z9GDdOddN8qMnBDLcWKp0kLmeeuXe5+
+         SNeLAwAIE9RVU+rnIArjI7qWEySQawK+MsPg1nsh/VHwSzZvdRQSFqkJPC1X7vTrASXT
+         6ALJP2/8ypcyoID/1QubWpUylgCWMR73R47n6C09QhN2kKIgttD/Py0FlAyRZZJry1vf
+         hvgdQfcaJWIkbU4+XsBsATVF5+t3BIHhIZgQNjP9RWBX290Qpw9WkgFXiHgaPc6j77Gn
+         22tDU0WaS0xqxIY3LOs2dy6TUMrFNHfYJu0XO32d23m5BhUpuklZ6fi3gdjvnlbbBnuf
+         vnOw==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@email.openai.com header.s=s1 header.b=AIfVPY1s;
+       dkim=pass header.i=@sendgrid.info header.s=smtpapi header.b=gfw2URLT;
+       spf=pass (google.com: domain of bounces+54382401-fe4a-giatkt1598=gmail.com@em6623.email.openai.com designates 159.183.126.65 as permitted sender) smtp.mailfrom="bounces+54382401-fe4a-giatkt1598=gmail.com@em6623.email.openai.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=openai.com
+Return-Path: <bounces+54382401-fe4a-giatkt1598=gmail.com@em6623.email.openai.com>
+Received: from o21.ptr7811.openai.com (o21.ptr7811.openai.com. [159.183.126.65])
+        by mx.google.com with ESMTPS id d2e1a72fcca58-8273a33f8efsi7929554b3a.215.2026.02.27.02.24.19
+        for <giatkt1598@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Feb 2026 02:24:20 -0800 (PST)
+Received-SPF: pass (google.com: domain of bounces+54382401-fe4a-giatkt1598=gmail.com@em6623.email.openai.com designates 159.183.126.65 as permitted sender) client-ip=159.183.126.65;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@email.openai.com header.s=s1 header.b=AIfVPY1s;
+       dkim=pass header.i=@sendgrid.info header.s=smtpapi header.b=gfw2URLT;
+       spf=pass (google.com: domain of bounces+54382401-fe4a-giatkt1598=gmail.com@em6623.email.openai.com designates 159.183.126.65 as permitted sender) smtp.mailfrom="bounces+54382401-fe4a-giatkt1598=gmail.com@em6623.email.openai.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=openai.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.openai.com;
+	h=content-type:date:from:mime-version:subject:to:list-unsubscribe:
+	list-unsubscribe-post:cc:content-type:date:feedback-id:from:subject:to;
+	s=s1; bh=IcLrxKsHu+gKm/Rqj/VSvwVXfC6BpfYCRCwav5Z3Was=;
+	b=AIfVPY1s37ifM/t8qR6em5t3heGkw/TAJl6IH9r6yDvT5OzrBokOHO3fMUBVz7m9UAqH
+	cUB+gZCrWgvC5yjjdwHSoW2DKOJq4pYWZUlzWzPbDVKIaMBe6vslwNXrY+Lqp1rXIMLfhU
+	f5XW9e+w1KpFKR3oYDwnHy/Kq4i+PVrTTj0Zu87BBX5ElnrZpPcjmJZ5tlYqjOxkm7+W3M
+	qSjVZfyBt6HNwZaT7LitrvgvxeoIBMDa8oBIAsFvyUDfzsQ3xJFvBQolEesg6IabQipAH2
+	2PcrU26UVKJnV3EhhV6TeJ6WzRmGrpNZ0Znrz2RlHq1gbUxzzO5JLTJvya3GXk/Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.info;
+	h=content-type:date:from:mime-version:subject:to:list-unsubscribe:
+	list-unsubscribe-post:cc:content-type:date:feedback-id:from:subject:to;
+	s=smtpapi; bh=IcLrxKsHu+gKm/Rqj/VSvwVXfC6BpfYCRCwav5Z3Was=;
+	b=gfw2URLTBIuqCgx5XxQCQ6D5C59jDpcvj4rFLZ4OeNgZSNFn96Fkq17xF7UuQrKEgNcI
+	H9wxJql45jp/JkAm5ermbGCs8+FpYwhis1/JYpVX5TBdqlQEzKDKs4f2mq88V3lzO9taTP
+	X6j5+DGJTjzn4yUwHKhwo7c3sYU5Mm4pY=
+Received: by recvd-6f6cf997fc-njgg2 with SMTP id recvd-6f6cf997fc-njgg2-1-69A170CD-5
+	2026-02-27 10:24:13.027962071 +0000 UTC m=+2048200.133319435
+Received: from NTQzODI0MDE (unknown)
+	by geopod-ismtpd-22 (SG) with HTTP
+	id f0B6JJx5Ro2gQit8DAFedQ
+	Fri, 27 Feb 2026 10:24:12.982 +0000 (UTC)
+Content-Type: multipart/alternative; boundary=d6772dfde98ce2ba26e3197f08ba7ab62a1639205b657fb340bed71cb193
+Date: Fri, 27 Feb 2026 10:24:11 +0000 (UTC)
+From: OpenAI <noreply@email.openai.com>
+Mime-Version: 1.0
+Message-ID: <f0B6JJx5Ro2gQit8DAFedQ@geopod-ismtpd-22>
+Subject: OpenAI Dev News: Codex app, tips from OpenAI devs
+X-SG-EID: 
+ =?us-ascii?Q?u001=2EpDXn7XyDvIUG5VuGYC+VAIfgfX9p=2FPJ3k8Jf5bQDbJSO2JLuNtY+hbBCw?=
+ =?us-ascii?Q?oWb4a4JeCfaPUhFyH026JNZutuzY6yJqAfKIoiT?=
+ =?us-ascii?Q?pCkJiZ6qjy84oBK97k5T5qhIHlRKPCnLtBt=2FLRa?=
+ =?us-ascii?Q?sISZTt9S3LqZIMyUdPFsF7Ie=2FN9RAvSNnUYWPwn?=
+ =?us-ascii?Q?75GQ0IL=2FlAnxeuciuGA+rcyXQY5fpBOFXv6PB+R?=
+ =?us-ascii?Q?o3zJyRpHp0Wt65RFOTNlG3=2F8mz41Hbv833EKsoN?= =?us-ascii?Q?jhh3?=
+X-SG-ID: 
+ =?us-ascii?Q?u001=2ESdBcvi+Evd=2FbQef8eZF3BpTL9BgbK5wfSJMJGMsmprDsPyUTnMagHRCjb?=
+ =?us-ascii?Q?=2F65Gublm1BHPqTDqJVixpEsjtrQZ6ZAMW8Us1Qr?=
+ =?us-ascii?Q?4gbjTtXPF3qGrcjXx4bxMrMKRPih8exoqm27oIb?=
+ =?us-ascii?Q?iRardijnBlUIBdcsQaG5lEGNepjQGClARK2SKEr?=
+ =?us-ascii?Q?8sGUf3JQiqkX83OGvj?=
+To: giatkt1598@gmail.com
+X-Entity-ID: u001.CeRxqTBCo9AqfEZg9s7PmA==
+List-Unsubscribe: 
+ =?us-ascii?Q?=3Chttps=3A=2F=2Fu54382401=2Ect=2Esendgrid=2Enet=2Flu=2Funsubscribe=3Foc=3Du001=2EqsF6?=
+ =?us-ascii?Q?oWXYWeRXgkiTO0YNWqhuwgeFTIIUeR5YW1zQ0Ey?=
+ =?us-ascii?Q?Vvp-LIppUIZfJpFhw-9pUpkRrmERXPaw5Jc6=5FO0?=
+ =?us-ascii?Q?gEf-FK8Ssfj9AMnm0kI0u9f9g2uMdEZeMEgu6dc?=
+ =?us-ascii?Q?B7ymhHxnNe1FAxtQBb3UZfuvANW=5FnC8CtcFoYPT?=
+ =?us-ascii?Q?f4HnpcJ3t9RH92n8sdMjsitnl3HT2fZWKdATdYe?=
+ =?us-ascii?Q?mWsYsA8LQnDnl3cNBUs1wyQWjvBsy9eXr2mh5=5FQ?=
+ =?us-ascii?Q?NMp3tL3WWmhFA0aNMFgfreh3wpKkY45RiD31WuN?=
+ =?us-ascii?Q?lY-z6ITrZ7PQUZR4zN2Czc0s93ynFCkFg84JYvI?=
+ =?us-ascii?Q?6l=5F4PnOpbkldCI9mndWRoZ7GVE=5FAOMNy3aW9uQM?=
+ =?us-ascii?Q?HJrg3ldU7ezrE8jv9DhbLeuzaL07YXxhZYd7RqE?=
+ =?us-ascii?Q?M=5F560T6vs7j8vAcar6KxM=5F0TV89q6TVb9Xx8FPQ?=
+ =?us-ascii?Q?t4Ue9YeiRObYu-ZxVkOtX0mUAxo4RmwcoUyI4Gz?=
+ =?us-ascii?Q?qesNbd3jyj8B=5F-nos1IouZz0sgBHKeVHyVaiSqd?=
+ =?us-ascii?Q?ueQlmq3lg0TO9C6f2zxmgiGyfAPmKk-zmeJU3Ef?=
+ =?us-ascii?Q?D0k3KXxGNquxzeTphx03QGynvxGZe-JyuZCKnnt?=
+ =?us-ascii?Q?ZrYZu1ImAuAxywNg0vU4rkvTH1T4kykPlypMIk-?=
+ =?us-ascii?Q?oZmj6866x6hBq8N2-G8AQo3MvjJ6iehUdpGfqhx?=
+ =?us-ascii?Q?5ZCadzqgvAhbaNmazTNpxCshCkcgzjjlbdVJG6g?=
+ =?us-ascii?Q?RrcgeqAEhXweWIkiLV5E13IVsLpiZAal1JRAdFH?=
+ =?us-ascii?Q?19zYI=5FerouJlNnuf7v6MvVzj-FDjOd0NVdZaOFA?=
+ =?us-ascii?Q?Z67RrKXpmf08aVIOYCtP0Lhmh0eTACCKZEnJbIo?=
+ =?us-ascii?Q?3bwPNA9hU=3E=2C=3Cmailto=3Aunsubscribe=40em6623=2Ee?=
+ =?us-ascii?Q?mail=2Eopenai=2Ecom=3Fsubject=3D54382401=2ErjqEln?=
+ =?us-ascii?Q?P2L2Ss8d0Z-kQhQP3Zfd6Q-y2puy7xzpLLHRloM?=
+ =?us-ascii?Q?DAwdTAwMPTmoil7CKy6ZUMJ77AnrFoqHwNa70bd?=
+ =?us-ascii?Q?D2pc7e-CFeYAVNc9qZ=5Fe=5FXw7KlWdFLKrle3aOPh?=
+ =?us-ascii?Q?XYE9=5Fh6G1fUnvQuh7DphQ3-VnRPAdEy6lcAdHoj?=
+ =?us-ascii?Q?cGflfQCAkGireu31tahg=3D=3D=2ENI93fSdEPafwrYh9?=
+ =?us-ascii?Q?Zn0wAjo2gA9PfA5rFhS8IGFDbChoMDAwdTAwML0?=
+ =?us-ascii?Q?SzLYsKOwuX5QsUkDVHnjzRw5OQOT6xdDNecSd=5F1?=
+ =?us-ascii?Q?9ojjfrv-L40Iu9CWy2n4mtrp=5Fl=5FVNPXMjujWoDx?=
+ =?us-ascii?Q?7dDwb2zpWs6EVdwxHvJhBHmuwAjkh6-NhlNYuwS?=
+ =?us-ascii?Q?VJmD6bS4v22=5Fg4Vpf0v6K8JASC9zL73RI728Cka?=
+ =?us-ascii?Q?dVi80Fck63iD=5F4Wnc0kd9hAookOmF8l8bsNW1Ca?=
+ =?us-ascii?Q?06CGWGApM9ZCf0HusPozVXui42=5FcUwvf5bDeFK4?=
+ =?us-ascii?Q?XgDqb77KV4zFWFRheaXDoihM17OT=5FeXIJ6Kv0=5F-?=
+ =?us-ascii?Q?3JFkYb1Mp-VDoVybeKtihReoSNI0Wzw9Zq=5Fy=5F2B?=
+ =?us-ascii?Q?Ddmi=5FjA=3D=3D=3E?=
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+
+--d6772dfde98ce2ba26e3197f08ba7ab62a1639205b657fb340bed71cb193
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Mime-Version: 1.0
+
+There=E2=80=99s a new way to build with Codex
+=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =
+=E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=
+=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =
+=E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=
+=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=
+=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =
+=E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=
+=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =
+=E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=
+=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=
+=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =
+=E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=
+=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =
+=E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=
+=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=
+=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =
+=E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=
+=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =
+=E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=
+=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=
+=E2=80=8D=CD=8F =E2=80=87=CD=8F =E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =
+=E2=80=87=E2=80=8D=CD=8F =E2=80=87=CD=8F =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=
+=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=
+=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=
+=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =
+=C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =
+=C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=
+=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=
+=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=
+=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=
+=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD=
+ =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =
+=C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =
+=C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=
+=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=
+=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=
+=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=
+=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =
+=C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =
+=C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=
+=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=
+=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=
+=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=
+=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD=
+ =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =
+=C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =
+=C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=
+=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=
+=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=
+=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=
+=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =
+=C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =
+=C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=
+=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=
+=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=
+=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=
+=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD=
+ =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =
+=C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =
+=C2=AD =C2=AD =C2=AD =C2=AD =CD=8F=E2=80=8C =C2=AD =C2=AD =C2=AD =C2=AD
+
+OpenAI Dev Newsletter
+
+Welcome to the OpenAI developer update=E2=80=94your source for what=E2=80=
+=99s shipping, how teams are building, and practical guidance straight from=
+ our engineers.
+
+Not in our Discord ( http://discord.gg/openai ) yet? Join to hear directly =
+from us and stay in touch with the OpenAI developer community.
+
+=E2=9A=A1 What's new
+
+What shipped, what changed, what to automate next
+
+*
+Your new command center for agentic coding*
+The Codex app is designed for multi-tasking with agents ( https://openai.co=
+m/index/introducing-the-codex-app/ ) and connects to all your tools. Superv=
+ise parallel workstreams, review changes cleanly, and stay in control from =
+background execution to shipped code.=C2=A0And for a limited time, try Code=
+x ( https://openai.com/codex/ ) in ChatGPT Free and ChatGPT Go.
+
+*Make Codex smarter everywhere
+* GPT-5.3-Codex can make Codex a more autonomous coworker ( https://openai.=
+com/index/introducing-gpt-5-3-codex/ ) across all Codex surfaces: the app, =
+CLI, IDE extensions, and web=E2=80=94and is now available in the Responses =
+API, too. We also released a research preview of GPT-5.3-Codex-Spark, a sma=
+ller, faster model built for real-time coding. ( https://openai.com/index/i=
+ntroducing-gpt-5-3-codex-spark/ )
+
+*Speed up tool-heavy agent runs with WebSockets
+* WebSockets in the Responses API speed up agent runs by 20=E2=80=9340% ( h=
+ttps://developers.openai.com/api/docs/guides/websocket-mode ) by maintainin=
+g a persistent connection=E2=80=94so you only send new inputs instead of fu=
+ll context each turn.
+
+*Build longer-running agents with the API
+* We=E2=80=99ve added an OpenAI-hosted container (with networking), Skills,=
+ and automatic compaction to the Responses API. This enables long-running w=
+orkflows ( https://developers.openai.com/api/docs/guides/tools-shell ) on c=
+omputers that execute tasks more reliably ( https://developers.openai.com/a=
+pi/docs/guides/tools-skills ) and work across millions of tokens ( https://=
+developers.openai.com/api/docs/guides/compaction ).
+
+*Upgrade your Realtime voice stack*
+If you=E2=80=99re building voice agents, gpt-realtime-1.5 is the new defaul=
+t ( https://developers.openai.com/api/docs/guides/realtime/ ) stronger mult=
+ilingual conversation, tighter instruction following, and more reliable too=
+l calling.
+
+*Generate images in bulk with the Batch API
+* You can now use the Batch API with our gpt-image models to send async gro=
+ups of requests at 50% lower cost ( https://developers.openai.com/api/docs/=
+guides/batch ) , with access to a separate pool of higher rate limits. This=
+ is available for our gpt-image models ( https://developers.openai.com/api/=
+docs/guides/image-generation ) : gpt-image-1.5, chatgpt-image-latest, gpt-i=
+mage-1, and gpt-image-1-mini.
+
+=F0=9F=A7=B0 Build kit
+
+Guides, blogs, and things worth cloning
+
+*Automate the repetitive stuff:* Andrew from the Codex engineering team sho=
+ws how he uses Codex Automations to offload recurring tasks ( https://www.y=
+outube.com/watch?v=3DxHnlzAPD9QI ) =E2=80=94what to automate, how to set it=
+ up, and where it saves real time.
+
+*Work on two things at once (without chaos):* Joey from the Codex engineeri=
+ng team demos parallel development with Codex worktrees: delegate a feature=
+ in one worktree, keep coding in another, then review and land both PRs. Pa=
+rallel workflows turn waiting time into progress. ( https://www.youtube.com=
+/watch?v=3D9ohXlkbXiM4 )
+
+*Build agents that can run for hours:* Shell tool, Skills, and automatic Co=
+mpaction are the core primitives for long-running agents. Get our tips for =
+practical patterns ( https://developers.openai.com/blog/skills-shell-tips )=
+ to execute commands, reuse behaviors, and keep context stable over time.
+
+*Build agents that behave (and remember):* Two Cookbook articles break down=
+ how prompt structure shapes agent behavior and reliability ( https://cookb=
+ook.openai.com/examples/gpt-5/prompt_personalities ) and how context engine=
+ering determines what gets retained vs. dropped ( https://cookbook.openai.c=
+om/examples/agents_sdk/context_personalization ).
+
+*Did your agent improve... or just change?:* Evals turn =E2=80=9Cfeels bett=
+er=E2=80=9D into actual checks. ( https://developers.openai.com/blog/eval-s=
+kills ) Did the skill trigger, do the right thing, and leave things clean? =
+This will help you catch regressions early.
+
+*Stop recomputing the same prompts:* Prompt caching reuses shared prefixes =
+( https://www.youtube.com/watch?v=3DtECAkJAI_Vk ) to make AI apps faster an=
+d cheaper at scale.
+
+=F0=9F=9B=A0=EF=B8=8F Devs in the wild
+
+From side projects to professional work
+
+*Company spotlight: Skyscanner*
+
+By wiring the Codex CLI into JetBrains ( https://www.youtube.com/watch?v=3D=
+1XkVsE9-ZK4 ) IDEs via the Model Context Protocol (MCP), Skyscanner gave Co=
+dex access to real IDE context ( https://developers.openai.com/blog/skyscan=
+ner-codex-jetbrains-mcp ). This unlocks smarter problem-solving, faster fee=
+dback loops, and measurable gains in development speed.
+
+*Developer spotlight: Agrim Singh*
+
+Check out the full thread on X from Agrim ( https://x.com/agrimsingh/status=
+/2022028612770443385 ) , CTO of Niyam AI (and Codex ambassador!) for an ear=
+ly wl1 demo, the repo, and notes on the build.
+
+=F0=9F=93=A3 Insider scoop
+
+Go behind the scenes with OpenAI engineers
+
+*Harness engineering ( https://openai.com/index/harness-engineering/ ) : le=
+veraging Codex in an agent-first world*
+
+Note from the author: =E2=80=9COur team has varied experience, and humans c=
+an=E2=80=99t fully mind-meld. Codex can: when we encode =E2=80=98what good =
+looks like=E2=80=99 in the repo, every run applies it consistently=E2=80=94=
+and the gains compound.=E2=80=9D
+
+- Ryan Lopopolo, Member of Technical Staff at OpenAI.=C2=A0Keep up with his=
+ work on X ( https://x.com/_lopopolo ).
+
+*Inside the Postgres Setup ( https://openai.com/index/scaling-postgresql/ )=
+ Powering 800M ChatGPT Users*
+
+Note from the author: =E2=80=9CBefore OpenAI, I learned the hard way that s=
+tartups often over-engineer. Here, I=E2=80=99ve been impressed by how far a=
+ deliberately simple setup=E2=80=94a single PostgreSQL writer=E2=80=94can s=
+cale with the right optimizations and discipline. That inspired me to share=
+ what I=E2=80=99ve seen.=E2=80=9D
+
+- Bohan Zhang, Member of Technical Staff at OpenAI. K eep up with his work =
+on X ( https://x.com/BohanZhangOT ).
+
+*What Actually Happens Inside an AI Coding Agent ( https://openai.com/index=
+/unrolling-the-codex-agent-loop/ ) (We Unrolled It)*
+
+Note from the author: =E2=80=9CDespite being on Codex CLI since the beginni=
+ng, I learned a lot from putting this post together, so hopefully you will,=
+ too!=E2=80=9D
+
+- Michael Bolin, Member of Technical Staff at OpenAI.=C2=A0Follow more of h=
+is journey on Threads ( https://www.threads.com/@bolinfest/post/DT3cVLlkubK=
+ ).
+
+Happy building and vibing,
+
+The OpenAI Team
+
+1455 3rd Street
+San Francisco CA 94158
+Unsubscribe ( http://url3243.email.openai.com/asm/unsubscribe/?user_id=3D54=
+382401&data=3D9GCECdhPVQl6Rok3yEN3Tm1OWzmwYUI3yqeh9gZral9oMDAwdTAwMIHsZTvrX=
+V2DJcM3-l3u_yhYXmsGIyOdvYbLvpN5kcxpjW2SgSiGEq8tklfhu-pLmF6uY8nTSn3v66GTCe-M=
+hZiHKMJ1Awf-x1S3IcnkkAp7EWpB36UUOeyx1ZWlV1ELTv8pcwfxvjW35i3kYa6yENp62uCSPak=
+gBIzxDCYNOoe-0ougt5xnH4cAs2BNOS0tUnWdvq7snxZdjBOfYIW5vVeMG5yK3wUGUEr2MsRRBt=
+HD6wRaZaCywBzAyQEjSLNDFV9UaEPXDWkmANgz--BFDWGs-dhJPqfeBrr6kBmTCyqgpkjuns786=
+h8g_sTDAFs8wCvuQ_5RWy4XpXcyIXjYCK76n6ZH8vj3nYUqiq0AoyrW7oMaaP1PFaoZt3sydaMs=
+90BnTeUKY66lLjtFvtOijQtzR0HYvtbt9GPDZbbiT740D3aIBfrGkuQqljsSpPYpJtxA8nFKpz0=
+L29d0vP78PMzKWq0T9H33gNZ_mHhNi7Ol )
+Privacy ( https://openai.com/policies/privacy-policy/ )
+
+OpenAI =C2=A9 2015=E2=80=932026
+--d6772dfde98ce2ba26e3197f08ba7ab62a1639205b657fb340bed71cb193
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=utf-8
+Mime-Version: 1.0
+
+<!doctype html><html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:v=3D"urn:=
+schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:office:offi=
+ce"><head><title></title><!--[if !mso]><!-- --><meta http-equiv=3D"X-UA-Com=
+patible" content=3D"IE=3Dedge"><!--<![endif]--><meta http-equiv=3D"Content-=
+Type" content=3D"text/html; charset=3DUTF-8"><meta name=3D"viewport" conten=
+t=3D"width=3Ddevice-width,initial-scale=3D1"><style type=3D"text/css">#outl=
+ook a { padding:0; }
+          table { border-spacing:0;}
+          img { border:0;height:auto;line-height:100%; outline:none;text-de=
+coration:none;-ms-interpolation-mode:bicubic; }
+          p { display:block; }</style><!--[if mso]>        =20
+          <xml>        =20
+            <o:OfficeDocumentSettings xmlns:o=3D"urn:schemas-microsoft-com:=
+office:office">    =20
+              <o:AllowPNG/>          =20
+              <o:PixelsPerInch>96</o:PixelsPerInch>        =20
+            </o:OfficeDocumentSettings>     =20
+            <w:WordDocument xmlns:w=3D"urn:schemas-microsoft-com:office:wor=
+d">
+              <w:DontUseAdvancedTypographyReadingMail/>
+            </w:WordDocument>      =20
+          </xml>            =20
+          <style type=3D"text/css">
+            table { border-collapse:collapse;mso-table-lspace:0pt;mso-table=
+-rspace:0pt; }
+            .mj-outlook-group-fix { width:100% !important; }
+          </style>        =20
+        <![endif]--><!--[if !mso]><!--><link href=3D"https://client-data.kn=
+ak.io/production/company_data/688b6df4a8798/custom-fonts/688cdb8dabede/font=
+s.css" rel=3D"stylesheet" type=3D"text/css"><link href=3D"https://fonts.goo=
+gleapis.com/css2?family=3DSource+Code+Pro:ital,wght@0,200..900;1,200..900&d=
+isplay=3Dswap" rel=3D"stylesheet" type=3D"text/css"><style type=3D"text/css=
+">@import url(https://client-data.knak.io/production/company_data/688b6df4a=
+8798/custom-fonts/688cdb8dabede/fonts.css);
+@import url(https://fonts.googleapis.com/css2?family=3DSource+Code+Pro:ital=
+,wght@0,200..900;1,200..900&display=3Dswap);</style><!--<![endif]--><style =
+type=3D"text/css">@media only screen and (min-width:480px) {
+        .mj-column-per-100 { width:100% !important; max-width: 100%; }
+.mj-column-per-27 { width:27% !important; max-width: 27%; }
+.mj-column-per-73 { width:73% !important; max-width: 73%; }
+      }</style><style type=3D"text/css">body, .body { margin:0;padding:0;-w=
+ebkit-text-size-adjust:100%;-ms-text-size-adjust:100%; }
+u ~ div .img-container img + div { display: none }
+.links-0068A5-underline a { color: #0068A5; text-decoration: underline; }
+#body #main [x-apple-data-detectors-type] {=20
+          color: inherit !important;=20
+          -webkit-text-decoration-color: inherit !important;=20
+          text-decoration: inherit !important;
+          font-weight: inherit !important;
+         }
+.links-0068A5 a { color: #0068A5; text-decoration: none; }
+.links-0068A5-underline-bold a { color: #0068A5; text-decoration: underline=
+; font-weight: bold; }
+.links-0071CF a { color: #0071CF; text-decoration: none; }
+.links-FFFFFF-underline a { color: #FFFFFF; text-decoration: underline; }
+       =20
+
+       =20
+       =20
+            @media only screen and (min-width:480px) {       =20
+                .border-radius-0pxpx { border-radius: 0pxpx !important}
+.img-full-width { max-width: 100% !important}
+            }</style><style type=3D"text/css">h1{font-size: 40px; margin: 0=
+;}h1.header-customization{font-size: inherit}h2{font-size: 32px; margin: 0;=
+}h2.header-customization{font-size: inherit}h3{font-size: 28px; margin: 0;}=
+h3.header-customization{font-size: inherit}h4{font-size: 24px; margin: 0;}h=
+4.header-customization{font-size: inherit}h5{font-size: 18px; margin: 0;}h5=
+.header-customization{font-size: inherit}h6{font-size: 16px; margin: 0;}h6.=
+header-customization{font-size: inherit}ul{display: block;}sup, sub{line-he=
+ight:0;}body a{text-decoration: none; color: #0068A5;}.image-highlight{tran=
+sition: 0.3s;}.image-highlight:hover{filter: brightness(1.2);}@media only s=
+creen and (min-width: 480px) { .hide-on-mobile{display:block !important;}.h=
+ide-on-desktop{display:none !important;} }.hide-on-desktop{display:block;}.=
+hide-on-mobile{display:none;}</style><!--[if mso]>
+            <style>
+                .hide-on-mobile {display:block !important}
+            </style>
+        <![endif]--><style>[class~=3D"x_body"] { width: 99.9% }</style></he=
+ad><body style=3D"word-spacing:normal;background-color:#FFFFFF;" class=3D"b=
+ody" id=3D"body"><!--[if !mso 9]><!--><div id=3D"emailPreHeader" style=3D"d=
+isplay: none;">There=E2=80=99s a new way to build with Codex</div><div styl=
+e=3D"display: none;">&#8199;&#8205;&#847; &#8199;&#847; &#8199;&#8205;&#847=
+; &#8199;&#847; &#8199;&#8205;&#847; &#8199;&#847; &#8199;&#8205;&#847; &#8=
+199;&#847; &#8199;&#8205;&#847; &#8199;&#847; &#8199;&#8205;&#847; &#8199;&=
+#847; &#8199;&#8205;&#847; &#8199;&#847; &#8199;&#8205;&#847; &#8199;&#847;=
+ &#8199;&#8205;&#847; &#8199;&#847; &#8199;&#8205;&#847; &#8199;&#847; &#81=
+99;&#8205;&#847; &#8199;&#847; &#8199;&#8205;&#847; &#8199;&#847; &#8199;&#=
+8205;&#847; &#8199;&#847; &#8199;&#8205;&#847; &#8199;&#847; &#8199;&#8205;=
+&#847; &#8199;&#847; &#8199;&#8205;&#847; &#8199;&#847; &#8199;&#8205;&#847=
+; &#8199;&#847; &#8199;&#8205;&#847; &#8199;&#847; &#8199;&#8205;&#847; &#8=
+199;&#847; &#8199;&#8205;&#847; &#8199;&#847; &#8199;&#8205;&#847; &#8199;&=
+#847; &#8199;&#8205;&#847; &#8199;&#847; &#8199;&#8205;&#847; &#8199;&#847;=
+ &#8199;&#8205;&#847; &#8199;&#847; &#8199;&#8205;&#847; &#8199;&#847; &#81=
+99;&#8205;&#847; &#8199;&#847; &#8199;&#8205;&#847; &#8199;&#847; &#8199;&#=
+8205;&#847; &#8199;&#847; &#8199;&#8205;&#847; &#8199;&#847; &#8199;&#8205;=
+&#847; &#8199;&#847; &#8199;&#8205;&#847; &#8199;&#847; &#8199;&#8205;&#847=
+; &#8199;&#847; &#8199;&#8205;&#847; &#8199;&#847; &#8199;&#8205;&#847; &#8=
+199;&#847; &#8199;&#8205;&#847; &#8199;&#847; &#8199;&#8205;&#847; &#8199;&=
+#847; &#8199;&#8205;&#847; &#8199;&#847; &#8199;&#8205;&#847; &#8199;&#847;=
+ &#8199;&#8205;&#847; &#8199;&#847; &#847;&zwnj; &shy; &shy; &shy; &shy; &#=
+847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#8=
+47;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#84=
+7;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847=
+;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;=
+&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&=
+zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&z=
+wnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zw=
+nj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwn=
+j; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj=
+; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj;=
+ &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; =
+&shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &=
+shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &s=
+hy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &sh=
+y; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy=
+; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy;=
+ &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; =
+&shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &=
+shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &s=
+hy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &sh=
+y; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy=
+; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy;=
+ &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; =
+&shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &=
+shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &s=
+hy; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &sh=
+y; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy=
+; &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy;=
+ &shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; =
+&shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &=
+shy; &#847;&zwnj; &shy; &shy; &shy; &shy; &#847;&zwnj; &shy; &shy; &shy; &s=
+hy; &#847;&zwnj; &shy; &shy; &shy; &shy; &nbsp;</div><!--<![endif]--><div s=
+tyle=3D"background-color:#FFFFFF;background-position:center center;backgrou=
+nd-size:auto;background-repeat:repeat;" id=3D"main"><table align=3D"center"=
+ border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" sty=
+le=3D"background-color:transparent;width:100%;" class=3D"section"><tr><td a=
+lign=3D"center"><div role=3D"none"><!--[if mso | IE]><table align=3D"center=
+" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"block-grid-outl=
+ook" style=3D"width:600px;" width=3D"600" ><tr><td style=3D"line-height:0px=
+;font-size:0px;mso-line-height-rule:exactly;"><![endif]--><div style=3D"bac=
+kground:transparent;background-color:transparent;margin:0 auto;max-width:60=
+0px;"><table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D=
+"0" role=3D"presentation" style=3D"background-color:transparent;width:100%;=
+"><tr><td style=3D"font-size:0px;padding:0;text-align:center;vertical-align=
+:top;" class=3D"block-grid"><!--[if mso | IE]><table role=3D"presentation" =
+border=3D"0" cellpadding=3D"0" cellspacing=3D"0"><tr><td style=3D"vertical-=
+align:top;width:600px;" ><![endif]--><div class=3D"mj-column-per-100 mj-out=
+look-group-fix" style=3D"font-size:0px;text-align:left;direction:ltr;displa=
+y:inline-block;vertical-align:top;width:100%;"><table border=3D"0" cellpadd=
+ing=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"border-radius:0p=
+x;vertical-align:top;" width=3D"100%"><tr><td class=3D"img-container" style=
+=3D"font-size:0px;padding:0px;word-break:break-word;text-align:center;"><di=
+v style=3D"margin:0 auto;"><img alt=3D"Text graphic displaying &quot;OpenAI=
+ Startup Drop&quot; in black letters on a pastel gradient background." heig=
+ht=3D"auto" width=3D"600" src=3D"https://client-data.knak.io/production/ema=
+il_assets/688b6df4a8798/Fg35nLzCrBymYwEdM7VEWgpgblNbZrYmu9Pxelbz.png?utm_so=
+urce=3Demail:698cffb5d9ecd" style=3D"border:none;outline:none;text-decorati=
+on:none;height:auto;width:100%;font-size:13px;display:block;"></div></td></=
+tr><tr><td class=3D"text-container" style=3D"font-size:0px;padding:32px 25p=
+x 15px 25px;word-break:break-word;text-align:center;"><div class=3D"links-0=
+068A5-underline"><div style=3D"font-family:Arial, sans-serif;font-size:32px=
+;font-weight:normal;letter-spacing:none;line-height:1.2;text-align:center;m=
+so-line-height-alt:2.375em;color:#0071CF;"><p style=3D"margin: 0;">OpenAI D=
+ev Newsletter</p></div></div></td></tr><tr><td class=3D"text-container" sty=
+le=3D"font-size:0px;padding:0px 25px 0px 25px;word-break:break-word;text-al=
+ign:left;"><div class=3D"links-0068A5"><div style=3D"font-family:Arial, san=
+s-serif;font-size:16px;font-weight:normal;letter-spacing:none;line-height:1=
+.4;text-align:left;mso-line-height-alt:1.375em;color:#000000;"><p style=3D"=
+margin: 0 0 10px 0;"><span style=3D"font-family: 'OpenAI Sans', Arial, sans=
+-serif; background-color: transparent;">Welcome to the OpenAI developer upd=
+ate=E2=80=94your source for what=E2=80=99s shipping, how teams are building=
+, and practical guidance straight from our engineers.</span></p><p style=3D=
+"margin: 0 0 10px 0;">Not in our&nbsp;<a href=3D"http://url3243.email.opena=
+i.com/ls/click?upn=3Du001.2VHwUgY1YfDLd-2FAyiutOsF4xvIl6zGHXICdgrXjwRa5I06D=
+9T-2B778MmgN8lKxwk5p4XJ_NT633BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEz=
+gkqS83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxN=
+JqZx1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cD=
+tWU6ZXB7DSNJOjMRKi-2FAqLATmUeGdoc2qMPbvLo206D885woOy0XvS-2F8LLGFEzh3RiLAWAN=
+z3-2BTFdIcqsbGUS63KWbTZj8Eb11RoQSEFSGTeNS-2FsstkB64CcEnQ3WjUa-2BGXMYV92EOHo=
+6IwzH4-2Bgbhg-2FhljdpBbvdCYaNufki-2B-2FaYyVifASLV5PwIUpwioVP8" target=3D"_b=
+lank" rel=3D"noopener" style=3D"color: rgb(0, 104, 165); text-decoration: n=
+one;">Discord</a> yet? Join to hear directly from us and stay in touch with=
+ the OpenAI developer community.&nbsp;</p></div></div></td></tr><tr><td sty=
+le=3D"font-size:0px;padding:25px 25px 25px 25px;word-break:break-word;text-=
+align:center;"><table width=3D"95%" role=3D"none" border=3D"0" cellpadding=
+=3D"0" cellspacing=3D"0" style=3D"border-top:solid 1px #AAAAAA;font-size:0;=
+display:inline-block;line-height:0;"><tr><td height=3D"0" style=3D"height:0=
+;line-height:0;">&nbsp;</td></tr></table></td></tr><tr><td class=3D"text-co=
+ntainer" style=3D"font-size:0px;padding:25px 25px 15px 25px;word-break:brea=
+k-word;text-align:center;"><div class=3D"links-0068A5-underline"><div style=
+=3D"font-family:Arial, sans-serif;font-size:32px;font-weight:normal;letter-=
+spacing:none;line-height:1.2;text-align:center;mso-line-height-alt:2.375em;=
+color:#0071CF;"><p style=3D"margin: 0;">=E2=9A=A1 <span style=3D"font-famil=
+y: 'OpenAI Sans', Arial, sans-serif;">What's</span> new</p></div></div></td=
+></tr><tr><td class=3D"text-container" style=3D"font-size:0px;padding:0px 2=
+5px 0px 25px;word-break:break-word;text-align:center;"><div class=3D"links-=
+0068A5-underline-bold"><div style=3D"font-family:Arial, sans-serif;font-siz=
+e:14px;font-weight:normal;letter-spacing:none;line-height:1.4;text-align:ce=
+nter;mso-line-height-alt:1.25em;color:#000000;"><p style=3D"margin: 0 0 10p=
+x 0;">What shipped, <span style=3D"font-family: 'OpenAI Sans', Arial, sans-=
+serif;">what</span> changed, what to automate next</p></div></div></td></tr=
+><tr><td class=3D"text-container" style=3D"font-size:0px;padding:0px 25px 0=
+px 25px;word-break:break-word;text-align:left;"><div class=3D"links-0068A5"=
+><div style=3D"font-family:Arial, sans-serif;font-size:16px;font-weight:nor=
+mal;letter-spacing:none;line-height:1.4;text-align:left;mso-line-height-alt=
+:1.375em;color:#000000;"><p style=3D"margin: 0 0 10px 0;"><strong><br>Your =
+new command center for agentic coding</strong><br>The <a href=3D"http://url=
+3243.email.openai.com/ls/click?upn=3Du001.GyApCCuCEL-2BZgyWl1glfWCtz7LLnf5-=
+2BGekc3d3musQypETy-2FO5hym4VwTDk91CvIBs4Nvk91FqVuTQ24kOYbzA-3D-3DUmZn_NT633=
+BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEzgkqS83t6BpHjTPhxz-2FuQ6q1-2Fn=
+RlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxNJqZx1OSleWXGiGWxhrsegLZoLyVBb=
+MC6WwAxI-2Bgpk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cDtWU6ZXB7DSNJOjMRKi-2FAqLGe7WC=
+PbJ0r9cOyaETp2JPFVLEK-2FGUxJA0YRak5nXOrM24m0RPv6IMO78w7Ak-2BVEkGaaTlHYm4S1a=
+tiBMZbzVkYZcX5eq6LoRk6dZ6Nkt8bXoroJfruiRoyAhGFgAWqm52l6-2BkNWdz1pyRJZvZSGL3=
+aJweZ8Opf6qK-2B3ChObF5fL" target=3D"_blank" rel=3D"noopener" style=3D"color=
+: rgb(0, 104, 165); text-decoration: none;"><span style=3D"font-family: 'Op=
+enAI Sans', Arial, sans-serif;">Codex</span> app is designed for multi-task=
+ing with agents</a> and connects to all your tools. Supervise parallel work=
+streams, review changes cleanly, and stay in control from background execut=
+ion to shipped code.&nbsp;And for a limited time,<a href=3D"http://url3243.=
+email.openai.com/ls/click?upn=3Du001.GyApCCuCEL-2BZgyWl1glfWPLhj6OWiNHsfEWa=
+oKZfsfpiqwcYaDJLRZJD1BtDLIWAX5eW_NT633BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSmvyoRzw=
+F52O8FwEzgkqS83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRbSOgQmy=
+Ew-2FJtxNJqZx1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYwryrWR4S83FcR=
+DY-2Bq6cDtWU6ZXB7DSNJOjMRKi-2FAqLNMGo0z3oXVKjfq4EMzywMkackjB2WgR03ycZGON9P9=
+i6u6pQPlF2eDp3Q85SRPiFNT9XTJoEnLhmsHhOnc7jRq-2FuROwtHCS0GP3UGbju6h93KhDkQ8-=
+2FE6H-2BwjmhfGshttesYZZTzy570clzEQd3E7szkA6VG4qo00i1ksOSLSzX" target=3D"_bl=
+ank" rel=3D"noopener" style=3D"color: rgb(0, 104, 165); text-decoration: no=
+ne;"> try Codex</a> in ChatGPT Free and ChatGPT Go.</p><p style=3D"margin: =
+0 0 10px 0;">&nbsp;<br><strong>Make Codex smarter everywhere<br></strong>GP=
+T-5.3-Codex can&nbsp;<a href=3D"http://url3243.email.openai.com/ls/click?up=
+n=3Du001.GyApCCuCEL-2BZgyWl1glfWCtz7LLnf5-2BGekc3d3musQy-2F6czMignb5mYu4gFP=
+VwhlasYrtMppS-2FT3bCAp3HBiyA-3D-3D3UH6_NT633BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSm=
+vyoRzwF52O8FwEzgkqS83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRb=
+SOgQmyEw-2FJtxNJqZx1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYwryrWR4=
+S83FcRDY-2Bq6cDtWU6ZXB7DSNJOjMRKi-2FAqLNLlR3AU0Tkuap5-2BdRmAgN3w-2FenGxWSpK=
+Sn51jaozmcW-2FHF2B7-2F9tQeVJ1evzs5vr28Y9Vz27xEqnkYZNgHbCJa6YeI3IOZKcKVFERlo=
+DuDHXJks8HYXjj-2F3EutbVER9XJwfdlxqNKSHY5nHOPNMbUq9vDiLX1R6Kb-2FwQxdJFLzg" t=
+arget=3D"_blank" rel=3D"noopener" style=3D"color: rgb(0, 104, 165); text-de=
+coration: none;">make Codex a more autonomous coworker</a> across all Codex=
+ surfaces: the app, CLI, IDE extensions, and web=E2=80=94and is now availab=
+le in the Responses API, too. We also released a research preview of GPT-5.=
+3-Codex-Spark,&nbsp;<a href=3D"http://url3243.email.openai.com/ls/click?upn=
+=3Du001.GyApCCuCEL-2BZgyWl1glfWCtz7LLnf5-2BGekc3d3musQy-2F6czMignb5mYu4gFPV=
+whlbEvOqwD0A-2FHDMogl6dtSSe-2F67mpw2NWFToODna-2BOQGI-3DiHUb_NT633BGz9DJpv6j=
+YmmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEzgkqS83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVYwp=
+fCkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxNJqZx1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI-2=
+Bgpk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cDtWU6ZXB7DSNJOjMRKi-2FAqLAgjf2m3yqsMJeAi=
+VhREcT4CM1BiUX14bKCSWq-2B5OlH1Elj5dOhdmSdfUlz-2Bs-2F5vgacCjJArrijjFQUVoRY74=
+iD9QaJvrgJ-2Fb3yKTmZuutwTpFOpvuzButaEZ5uC8BOuWeHyfg3yMQmSytP5NfFENIaHiowCec=
+NFtj4nldWfRN4v" target=3D"_blank" rel=3D"noopener" style=3D"color: rgb(0, 1=
+04, 165); text-decoration: none;">a smaller, faster model built for real-ti=
+me coding.&nbsp;</a></p><p style=3D"margin: 0 0 10px 0;">&nbsp;</p><p style=
+=3D"margin: 0 0 10px 0;"><strong>Speed up tool-heavy agent runs with WebSoc=
+kets<br></strong>WebSockets in the Responses API <a href=3D"http://url3243.=
+email.openai.com/ls/click?upn=3Du001.GyApCCuCEL-2BZgyWl1glfWOBaunxKVIa8HlKw=
+EjEx6X-2B2FFee5qn7oZ-2F7JRXpS9Uf4dN06ROCBZNSGcszqygWLvzUTH9AFskp3kgxoNtC-2F=
+pQ-3D71to_NT633BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEzgkqS83t6BpHjTP=
+hxz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxNJqZx1OSleWXGiG=
+WxhrsegLZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cDtWU6ZXB7DSNJOj=
+MRKi-2FAqLH9Y6ldsYIVBj-2Bi0Jk26DoS1Tn1MfS5Wt9wDF6Wpaa0EWeS1f0tYzPm3knVlAV3i=
+bm4S0XT76Mzo7ymD9cul6GGinKt-2FLYlIblUNBwvLC0Dkas5-2FYLuWpLIwjQE18es00LlJhGu=
+iPsboW2BNzFg7ImBhENxJKlvIT7PI5pb1jmag" target=3D"_blank" rel=3D"noopener" s=
+tyle=3D"color: rgb(0, 104, 165); text-decoration: none;">speed up agent run=
+s by 20=E2=80=9340%</a> by maintaining a persistent connection=E2=80=94so y=
+ou only send new inputs instead of full context each turn.</p><p style=3D"m=
+argin: 0 0 10px 0;">&nbsp;</p><p style=3D"margin: 0 0 10px 0;"><strong>Buil=
+d longer-running agents with the API<br></strong>We=E2=80=99ve added an Ope=
+nAI-hosted container (with networking), Skills, and automatic compaction to=
+ the Responses API. This <a href=3D"http://url3243.email.openai.com/ls/clic=
+k?upn=3Du001.GyApCCuCEL-2BZgyWl1glfWOBaunxKVIa8HlKwEjEx6X-2B2FFee5qn7oZ-2F7=
+JRXpS9UfaadTFb2h13RM5ks8ut7qlMz2o0oQMscZ68gP9cM6Ugc-3DCgxr_NT633BGz9DJpv6jY=
+mmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEzgkqS83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVYwpf=
+CkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxNJqZx1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI-2B=
+gpk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cDtWU6ZXB7DSNJOjMRKi-2FAqLHtS2Xu4dtCfYFmHa=
+9ZYH0OEfaFUBOSTi3gdE2kk2mNEiqeUMh5YWCwVuRrGrMDM6SXyET-2FhTDd7-2FStFZXf5ntz0=
+v6BAsDbwchb7OPoLL3oh7hBuZARfqitJ6qXg2HfrF9OuFkSvkAOczuwE6pmDpZ31TGl-2B5A991=
+voBI1iX-2BhU3" target=3D"_blank" rel=3D"noopener" style=3D"color: rgb(0, 10=
+4, 165); text-decoration: none;">enables long-running workflows</a> on comp=
+uters that&nbsp;<a href=3D"http://url3243.email.openai.com/ls/click?upn=3Du=
+001.GyApCCuCEL-2BZgyWl1glfWOBaunxKVIa8HlKwEjEx6X-2B2FFee5qn7oZ-2F7JRXpS9UfO=
+YYJVp1pezsfoWcrM-2BxAlsizuzyya76Mv9WUk2qwF1E-3DB0O9_NT633BGz9DJpv6jYmmTLvLe=
+4vuI6Iyy8mZSmvyoRzwF52O8FwEzgkqS83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpa=
+J5kEZ2FpulNRbSOgQmyEw-2FJtxNJqZx1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI-2Bgpk9xon=
+hjXKNYwryrWR4S83FcRDY-2Bq6cDtWU6ZXB7DSNJOjMRKi-2FAqLNII1tSA85JOLi5wftBSotP0=
+NUMCReqYk7BLWrbyul3jY66P2RIUw-2Fr3O40ArYjX5hHnk0Yqp-2BB1Vq6x7oMkCxP2pFRodDZ=
+L-2FXK7iSCVrKYBuraFrmUN59Jh2-2BfzO4j-2FtVGFQfireDV-2BiEP8EBjbSB1l-2BdnIZwGK=
+3pHbHhLpVT8C" target=3D"_blank" rel=3D"noopener" style=3D"color: rgb(0, 104=
+, 165); text-decoration: none;">execute tasks more reliably</a> and <a href=
+=3D"http://url3243.email.openai.com/ls/click?upn=3Du001.GyApCCuCEL-2BZgyWl1=
+glfWOBaunxKVIa8HlKwEjEx6X-2B2FFee5qn7oZ-2F7JRXpS9UfGdPX06krJrd5NGBERCwyZ-2F=
+sc4bQILDH48Zhx7AHUueI-3DlMy7_NT633BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSmvyoRzwF52O=
+8FwEzgkqS83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2=
+FJtxNJqZx1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYwryrWR4S83FcRDY-2=
+Bq6cDtWU6ZXB7DSNJOjMRKi-2FAqLJsQ-2Fb0zbfi-2F36MBB0cnfR19BTUh0ECfV4DeUmO7jZM=
+uVG4qUcrm0cW7B6iCaKJUqY7LuGQ31bVuORW6V5op7GHJN44oVWIzVNIEH9OWLzSXfKqxCApqOC=
+P3YsCFD8bSfmH-2FqiRYgoHBWF16334auYcAOCIov4gMJyPqIh2UxOz-2B" target=3D"_blan=
+k" rel=3D"noopener" style=3D"color: rgb(0, 104, 165); text-decoration: none=
+;">work across millions of tokens</a>.&nbsp;</p><p style=3D"margin: 0 0 10p=
+x 0;">&nbsp;</p><p style=3D"margin: 0 0 10px 0;"><strong>Upgrade your Realt=
+ime voice stack</strong><br>If you=E2=80=99re building voice agents, <a hre=
+f=3D"http://url3243.email.openai.com/ls/click?upn=3Du001.GyApCCuCEL-2BZgyWl=
+1glfWOBaunxKVIa8HlKwEjEx6X-2B2FFee5qn7oZ-2F7JRXpS9Ufv2ckcZanWJRTMvOSDNdeq68=
+EcbBPe6VkZK5KyhvfpV8-3Df8Cf_NT633BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8=
+FwEzgkqS83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2F=
+JtxNJqZx1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYwryrWR4S83FcRDY-2B=
+q6cDtWU6ZXB7DSNJOjMRKi-2FAqLPPvRaXAjhNHkJPzWHjYLUvbX72FRihUNU17zuCM1MsoQMSj=
+CtNMfKhVlZoWlhikoGWxoTbkU-2Bhpae24i3Z9o6cAF4kVkILzx-2FOiwyMZaQKmLEFlzRbOT9F=
+WRs4h8OPLWhKcRC2KzKA7XVlw-2FEJIuDm8NTJji7rbf42oTcinvari" target=3D"_blank" =
+rel=3D"noopener" style=3D"color: rgb(0, 104, 165); text-decoration: none;">=
+gpt-realtime-1.5 is the new default</a> stronger multilingual conversation,=
+ tighter instruction following, and more reliable tool calling.</p><p style=
+=3D"margin: 0 0 10px 0;">&nbsp;</p><p style=3D"margin: 0 0 10px 0;"><strong=
+>Generate images in bulk with the Batch API<br></strong>You can now use the=
+ Batch API with our gpt-image models to <a href=3D"http://url3243.email.ope=
+nai.com/ls/click?upn=3Du001.GyApCCuCEL-2BZgyWl1glfWOBaunxKVIa8HlKwEjEx6X-2B=
+2FFee5qn7oZ-2F7JRXpS9Ufnd2dNMVBH22LycV3LTx-2Bow-3D-3DLkBU_NT633BGz9DJpv6jYm=
+mTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEzgkqS83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVYwpfC=
+kkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxNJqZx1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI-2Bg=
+pk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cDtWU6ZXB7DSNJOjMRKi-2FAqLHjppNq4rSCnqNJbwm=
+A0xbDIcs44qNBUN7KrlOxNZL2P0XhtB2S22mh7HACff90c0bj9TLmu3Yw6N3RUHkos8rEuEoGV9=
+loNPXzYLzJJ666cuFXHu-2FrQsyE1lxSkmAKoQvAgAeJGLtaBbBQMP5hcMp9FC1OW-2Bacqsz9x=
+BqnQ6-2F8Y" target=3D"_blank" rel=3D"noopener" style=3D"color: rgb(0, 104, =
+165); text-decoration: none;">send async groups of requests at 50% lower co=
+st</a>, with access to a separate pool of higher rate limits. This is <a hr=
+ef=3D"http://url3243.email.openai.com/ls/click?upn=3Du001.GyApCCuCEL-2BZgyW=
+l1glfWOBaunxKVIa8HlKwEjEx6X-2B2FFee5qn7oZ-2F7JRXpS9UfxslJeY9wQaJT4Abh7SH5Gf=
+iuAWlr-2FCwhXCQYDwzvtwc-3DLScC_NT633BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSmvyoRzwF5=
+2O8FwEzgkqS83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRbSOgQmyEw=
+-2FJtxNJqZx1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYwryrWR4S83FcRDY=
+-2Bq6cDtWU6ZXB7DSNJOjMRKi-2FAqLJ3h1MeskTUcjRcV012L11tDaCykCbGTN7ZonGD99mrZ-=
+2FviUY-2FEsGLxWZOm9fUiBdyyR4wVYBdh6tQIQUaCFS43aoJQKmjb5dEqijDB9bw5xvTZgwJ-2=
+F5f64Rz-2F8jqXQgJRwdtPC3aR6lhiGZ3859YPsxVw8j7sqDj2H8hm8kAjXr" target=3D"_bl=
+ank" rel=3D"noopener" style=3D"color: rgb(0, 104, 165); text-decoration: no=
+ne;">available for our gpt-image models</a>: gpt-image-1.5, chatgpt-image-l=
+atest, gpt-image-1, and gpt-image-1-mini.&nbsp;</p></div></div></td></tr><t=
+r><td style=3D"font-size:0px;padding:25px 25px 25px 25px;word-break:break-w=
+ord;text-align:center;"><table width=3D"95%" role=3D"none" border=3D"0" cel=
+lpadding=3D"0" cellspacing=3D"0" style=3D"border-top:solid 1px #AAAAAA;font=
+-size:0;display:inline-block;line-height:0;"><tr><td height=3D"0" style=3D"=
+height:0;line-height:0;">&nbsp;</td></tr></table></td></tr><tr><td class=3D=
+"text-container" style=3D"font-size:0px;padding:25px 25px 15px 25px;word-br=
+eak:break-word;text-align:center;"><div class=3D"links-0068A5-underline"><d=
+iv style=3D"font-family:Arial, sans-serif;font-size:32px;font-weight:normal=
+;letter-spacing:none;line-height:1.2;text-align:center;mso-line-height-alt:=
+2.375em;color:#0071CF;"><p style=3D"margin: 0;">=F0=9F=A7=B0 Build kit</p><=
+/div></div></td></tr><tr><td class=3D"text-container" style=3D"font-size:0p=
+x;padding:0px 25px 0px 25px;word-break:break-word;text-align:center;"><div =
+class=3D"links-0068A5-underline-bold"><div style=3D"font-family:Arial, sans=
+-serif;font-size:14px;font-weight:normal;letter-spacing:none;line-height:1.=
+4;text-align:center;mso-line-height-alt:1.25em;color:#000000;"><p style=3D"=
+margin: 0 0 10px 0;">Guides, blogs, <span style=3D"font-family: 'OpenAI San=
+s', Arial, sans-serif;">and</span> things worth cloning</p></div></div></td=
+></tr><tr><td class=3D"text-container" style=3D"font-size:0px;padding:0px 2=
+5px 0px 25px;word-break:break-word;text-align:left;"><div class=3D"links-00=
+68A5"><div style=3D"font-family:Arial, sans-serif;font-size:16px;font-weigh=
+t:normal;letter-spacing:none;line-height:1.4;text-align:left;mso-line-heigh=
+t-alt:1.375em;color:#000000;"><p style=3D"margin: 0 0 10px 0;">&nbsp;</p><p=
+ style=3D"margin: 0 0 10px 0;"><strong>Automate the repetitive stuff: </str=
+ong>Andrew from the Codex engineering team shows how he uses <a href=3D"htt=
+p://url3243.email.openai.com/ls/click?upn=3Du001.GyApCCuCEL-2BZgyWl1glfWKag=
+vviGfg4R7Ka7A-2FLtP0VFGHZwv-2B92xjH5JoxI2xgg330nRV16MTeo2YoK0LJDUQ-3D-3DYNj=
+V_NT633BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEzgkqS83t6BpHjTPhxz-2FuQ=
+6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxNJqZx1OSleWXGiGWxhrsegL=
+ZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cDtWU6ZXB7DSNJOjMRKi-2FA=
+qLIGoxevEKtz4ESeO1yR9rnRljZC5upDVRGu-2Bg0dM9eHOVV-2BR7Tn29ijZc5dEdVuBmo1Hpn=
+rr45W-2BPNQN1zMBjS5pltSoQavH-2BNt8aSJqh-2FkqmaMg6Wen2-2FeeYaOnorHjw7h42txQF=
+ZBCsbKMEBN3p04MThNooFL06Qh5dUpxCbN1" target=3D"_blank" rel=3D"noopener" sty=
+le=3D"color: rgb(0, 104, 165); text-decoration: none;">Codex Automations to=
+ offload recurring tasks</a>=E2=80=94what to automate, how to set it up, an=
+d where it saves real time.</p><p style=3D"margin: 0 0 10px 0;"><br><strong=
+>Work on two things at once (without chaos): </strong>Joey from the Codex e=
+ngineering team demos parallel development with Codex worktrees: delegate a=
+ feature in one worktree, keep coding in another, then review and land both=
+ PRs. <a href=3D"http://url3243.email.openai.com/ls/click?upn=3Du001.GyApCC=
+uCEL-2BZgyWl1glfWKagvviGfg4R7Ka7A-2FLtP0V-2BksV5TAZ3aT8Q3KA9uU173ySaA0lZFDe=
+4fwre5v4IpA-3D-3Dtc2g_NT633BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEzgk=
+qS83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxNJq=
+Zx1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cDtW=
+U6ZXB7DSNJOjMRKi-2FAqLIBfmTi-2BVPNUvrM1Q7O6YropWWX4RIV3EkTcGNldJAbQ4t3QwVWy=
+Du2NxUUAbAsOvUYRKPRdZdBA9CdjmL5Dar7AJyQFoSfV-2FJx2v2204sXZ2VKQEgFA3IIOdHo1r=
+3sR1-2FyYXR-2B179XuLpNOUmPgtXgJ3lt8UA-2BCEul3rOmg8Rtr" target=3D"_blank" re=
+l=3D"noopener" style=3D"color: rgb(0, 104, 165); text-decoration: none;">Pa=
+rallel workflows turn waiting time into progress.</a></p><p style=3D"margin=
+: 0 0 10px 0;"><br><strong>Build agents that can run for hours:&nbsp;</stro=
+ng>Shell tool, Skills, and automatic Compaction are the core primitives for=
+ long-running agents.&nbsp;<a href=3D"http://url3243.email.openai.com/ls/cl=
+ick?upn=3Du001.GyApCCuCEL-2BZgyWl1glfWOBaunxKVIa8HlKwEjEx6X-2FUFRe-2FLV0Ggw=
+QLatz-2FH6twjYe4XXbD1l0wxedeWiDXew-3D-3D3c8F_NT633BGz9DJpv6jYmmTLvLe4vuI6Iy=
+y8mZSmvyoRzwF52O8FwEzgkqS83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2F=
+pulNRbSOgQmyEw-2FJtxNJqZx1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYw=
+ryrWR4S83FcRDY-2Bq6cDtWU6ZXB7DSNJOjMRKi-2FAqLI6q7Uwj0PgLltm0d9xX19xeSsoTDIO=
+xG-2BgZzJPhZGwZtNQcs5fij7gBJAPT9AfueavDopn0mR2IXTHfnHCmeg8xQ0oUvGSKzy1YMuSE=
+xugOUtLx2uGLNoGhJJsl0p1S79I95Tzk6PnnbxM0U-2FcAeA9hcjUHZDT8Ff1aMmNTjkEZ" tar=
+get=3D"_blank" rel=3D"noopener" style=3D"color: rgb(0, 104, 165); text-deco=
+ration: none;">Get our tips for practical patterns</a> to execute commands,=
+ reuse behaviors, and keep context stable over time.</p><p style=3D"margin:=
+ 0 0 10px 0;"><br><strong>Build agents that behave (and remember): </strong=
+>Two Cookbook articles break down <a href=3D"http://url3243.email.openai.co=
+m/ls/click?upn=3Du001.GyApCCuCEL-2BZgyWl1glfWDq54tgWqkafzluAeVzycIH3QeTOJit=
+o5wz3uu8L8nwgKkXVtqtrNgy1LU4hKwjXdM22HsRDYqBOf2RNZcICSf0-3Dz6k3_NT633BGz9DJ=
+pv6jYmmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEzgkqS83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqK=
+VYwpfCkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxNJqZx1OSleWXGiGWxhrsegLZoLyVBbMC6WwA=
+xI-2Bgpk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cDtWU6ZXB7DSNJOjMRKi-2FAqLGVqjGBchmOd=
+bNsglnlJQoxdQriu-2Bv3eZe8B9IfQVpqUgsfzIHd0bu-2BCe89ZtyFQt6bxLGnuaNzPG-2BGiq=
+E6Lfgh8usuI-2FJxEqvHTv4rwEHVAofe4spxsoPmpiCGQDxCAJ39VIW6Zyf3wm7bg6lOrJrwEdd=
+KRv-2FUrWUZUE8yXl0Ll" target=3D"_blank" rel=3D"noopener" style=3D"color: rg=
+b(0, 104, 165); text-decoration: none;">how prompt structure shapes agent b=
+ehavior and reliability </a>and <a href=3D"http://url3243.email.openai.com/=
+ls/click?upn=3Du001.GyApCCuCEL-2BZgyWl1glfWDq54tgWqkafzluAeVzycIHQjdp1GVsLh=
+DHkfSCMAkZiLx0elXVZosDczWg1FJQU1-2Fu1r49mLY3HwSbMU6Io-2BVGAHUexb1rrxXOrQExf=
+f8gRNZ6t_NT633BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEzgkqS83t6BpHjTPh=
+xz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxNJqZx1OSleWXGiGW=
+xhrsegLZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cDtWU6ZXB7DSNJOjM=
+RKi-2FAqLHIjw4gFc0RqgEC3SYk9EwQSE-2BYMwgLikx-2FT9lhDRafwKQ3V0MYetLgpZE8jjnE=
+bM9IpfvanMs8BlSlW54VKhuaAeiSUcJeiNHXJPeovj-2BtH6j-2Bm3pm-2Bww0SISShi2aH9le8=
+tqzD3oP4AqZ7xKVikWsl6aNNSNmxFfJUwxVNAaa4" target=3D"_blank" rel=3D"noopener=
+" style=3D"color: rgb(0, 104, 165); text-decoration: none;">how context eng=
+ineering determines what gets retained vs. dropped</a>.</p><p style=3D"marg=
+in: 0 0 10px 0;">&nbsp;</p><p style=3D"margin: 0 0 10px 0;"><strong>Did you=
+r agent improve... or just change?:&nbsp;</strong><a href=3D"http://url3243=
+.email.openai.com/ls/click?upn=3Du001.GyApCCuCEL-2BZgyWl1glfWOBaunxKVIa8HlK=
+wEjEx6X9b1G0bkS3b5U6Qu2XdJhnoyB218v6rO1kbs6KESsYPeg-3D-3D7WeN_NT633BGz9DJpv=
+6jYmmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEzgkqS83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVY=
+wpfCkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxNJqZx1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI=
+-2Bgpk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cDtWU6ZXB7DSNJOjMRKi-2FAqLFgHT7Yc4Ft2vb=
+rel89-2Fad3WW32yJKAPXhsVE8-2BzGMgTJrTF1Lf-2Bu9VzoAiU-2Fd3y2Won1agKHAHitf1cD=
+WrGbBTIaTsUd9QPn-2Bf6-2FCLTQFt9r5UJhgVPKPCTpf-2Bcs-2B00LtnrixgjE06jn5LtJD24=
+gyG83sW4v4DIDbJVhtonVjdq" target=3D"_blank" rel=3D"noopener" style=3D"color=
+: rgb(0, 104, 165); text-decoration: none;">Evals turn =E2=80=9Cfeels bette=
+r=E2=80=9D into actual checks.</a> Did the skill trigger, do the right thin=
+g, and leave things clean? This will help you catch regressions early.</p><=
+p style=3D"margin: 0 0 10px 0;">&nbsp;</p><p style=3D"margin: 0 0 10px 0;">=
+<strong>Stop recomputing the same prompts:&nbsp;</strong><a href=3D"http://=
+url3243.email.openai.com/ls/click?upn=3Du001.GyApCCuCEL-2BZgyWl1glfWKagvviG=
+fg4R7Ka7A-2FLtP0W48Z9B8lFK2olvyWZ0owyTknjc-2Bu3j7rg46wKYvHFi1w-3D-3Diq5C_NT=
+633BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEzgkqS83t6BpHjTPhxz-2FuQ6q1-=
+2FnRlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxNJqZx1OSleWXGiGWxhrsegLZoLy=
+VBbMC6WwAxI-2Bgpk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cDtWU6ZXB7DSNJOjMRKi-2FAqLHy=
+mcN8zdlQXGY9vrFmp0oRXIm9mfHvO7yCERUAWie2koFI1Q9rMwLB3hlh7k22z7Ce2xctMf-2BWQ=
+4luwArVnDIcY-2BKKheaBSGmK78rIxjMBJkH0nRa-2FBXAtLnWTIMIsVi-2F8sMWndvPNZ2pAf-=
+2BJgtF45tQtgF7uwJMw-2FXmU2lxCER" target=3D"_blank" rel=3D"noopener" style=
+=3D"color: rgb(0, 104, 165); text-decoration: none;">Prompt caching reuses =
+shared prefixes</a> to make AI apps faster and cheaper at scale.</p></div><=
+/div></td></tr><tr><td style=3D"font-size:0px;padding:10px 25px;word-break:=
+break-word;text-align:center;"><table width=3D"95%" role=3D"none" border=3D=
+"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"border-top:solid 1px #AAAA=
+AA;font-size:0;display:inline-block;line-height:0;"><tr><td height=3D"0" st=
+yle=3D"height:0;line-height:0;">&nbsp;</td></tr></table></td></tr><tr><td c=
+lass=3D"text-container" style=3D"font-size:0px;padding:25px 25px 15px 25px;=
+word-break:break-word;text-align:center;"><div class=3D"links-0068A5-underl=
+ine"><div style=3D"font-family:Arial, sans-serif;font-size:32px;font-weight=
+:normal;letter-spacing:none;line-height:1.4;text-align:center;mso-line-heig=
+ht-alt:2.813em;color:#0071CF;"><p style=3D"margin: 0;">=F0=9F=9B=A0=EF=B8=
+=8F Devs in <span style=3D"font-family: 'OpenAI Sans', Arial, sans-serif;">=
+the</span> wild</p></div></div></td></tr><tr><td class=3D"text-container" s=
+tyle=3D"font-size:0px;padding:0px 25px 16px 25px;word-break:break-word;text=
+-align:center;"><div class=3D"links-0068A5-underline"><div style=3D"font-fa=
+mily:Arial, sans-serif;font-size:14px;font-weight:normal;letter-spacing:non=
+e;line-height:1.4;text-align:center;mso-line-height-alt:1.25em;color:#00000=
+0;"><p style=3D"margin: 0 0 10px 0;">From side <span style=3D"font-family: =
+'OpenAI Sans', Arial, sans-serif;">projects</span> to professional work</p>=
+</div></div></td></tr><tr><td class=3D"text-container" style=3D"font-size:0=
+px;padding:0px 25px 10px 25px;word-break:break-word;text-align:left;"><div =
+class=3D"links-0068A5"><div style=3D"font-family:Arial, sans-serif;font-siz=
+e:16px;font-weight:normal;letter-spacing:none;line-height:1.4;text-align:le=
+ft;mso-line-height-alt:1.375em;color:#000000;"><p style=3D"margin: 0 0 10px=
+ 0;"><strong>Company spotlight: Skyscanner</strong></p><p style=3D"margin: =
+0 0 10px 0;">By wiring <span style=3D"font-family: 'OpenAI Sans', Arial, sa=
+ns-serif;">the</span> <a href=3D"http://url3243.email.openai.com/ls/click?u=
+pn=3Du001.GyApCCuCEL-2BZgyWl1glfWKagvviGfg4R7Ka7A-2FLtP0XULkBTa03-2BnuRY0yp=
+-2Fr0YucLNw99-2BhwMd25zNHrWReeg-3D-3Dgsnz_NT633BGz9DJpv6jYmmTLvLe4vuI6Iyy8m=
+ZSmvyoRzwF52O8FwEzgkqS83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2Fpul=
+NRbSOgQmyEw-2FJtxNJqZx1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYwryr=
+WR4S83FcRDY-2Bq6cDtWU6ZXB7DSNJOjMRKi-2FAqLOjQ2lRvDGn56Kxiwh1xMIHAIgSu-2FTFH=
+DKEKPOnN3vMHvYNoAMj9gvaJunZ2kGSVv6jUYzsqxZmbBPsnznghb7ItXJeJIE3SqJeZ0fmiGDt=
+5xRplkQoZOcgphNOOrPnfzIKw9C3tYPXI2dwmIY7L-2BNrl1xekkLc-2F7Dkc-2F42FlK8S" ta=
+rget=3D"_blank" rel=3D"noopener" style=3D"color: rgb(0, 104, 165); text-dec=
+oration: none;">Codex CLI into JetBrains</a> IDEs via the Model Context Pro=
+tocol (MCP), <a href=3D"http://url3243.email.openai.com/ls/click?upn=3Du001=
+.GyApCCuCEL-2BZgyWl1glfWOBaunxKVIa8HlKwEjEx6X8atPQ60drHTMVV-2FL9xHBeOushH3L=
+c7rtT2qoVqqw4wIcZAOzdaMuBQZa-2BjPNdf74s-3DV_bK_NT633BGz9DJpv6jYmmTLvLe4vuI6=
+Iyy8mZSmvyoRzwF52O8FwEzgkqS83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ=
+2FpulNRbSOgQmyEw-2FJtxNJqZx1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI-2Bgpk9xonhjXKN=
+YwryrWR4S83FcRDY-2Bq6cDtWU6ZXB7DSNJOjMRKi-2FAqLMJsxVhL-2FOBA9l6SehIsoYao7F9=
+KbOE8wROl-2FduSgHVI75bds1oBlyX24sBM6k99dLw9yFOXS3y-2BBN7Uu-2BZTRfbKMyBQIe8i=
+CbWypqJlKX5CNAk4TQSnnSF9Bb-2F6mmePV5QntaMaGJZYXonN8orWJ8mSpOAbHaD1Aoa-2FHN0=
+y5qcP" target=3D"_blank" rel=3D"noopener" style=3D"color: rgb(0, 104, 165);=
+ text-decoration: none;">Skyscanner gave Codex access to real IDE context</=
+a>. This unlocks smarter problem-solving, faster feedback loops, and measur=
+able gains in development speed.</p><p style=3D"margin: 0 0 10px 0;"><br><s=
+trong>Developer spotlight: Agrim Singh</strong></p></div></div></td></tr><t=
+r><td class=3D"img-container" style=3D"font-size:0px;padding:1px;word-break=
+:break-word;text-align:center;"><div style=3D"margin:0 auto;max-width:448px=
+;"><img alt height=3D"auto" width=3D"448" src=3D"https://client-data.knak.i=
+o/production/email_assets/688b6df4a8798/ZYQnZyLpFYGbXoTeWX46t1uqKVugxEh619j=
+eO6Z7.png?utm_source=3Demail:698cffb5d9ecd" style=3D"border:none;border-rad=
+ius:1px;outline:none;text-decoration:none;height:auto;width:100%;font-size:=
+13px;display:block;"></div></td></tr><tr><td class=3D"text-container" style=
+=3D"font-size:0px;padding:0px 25px 0px 25px;word-break:break-word;text-alig=
+n:left;"><div class=3D"links-0068A5"><div style=3D"font-family:Arial, sans-=
+serif;font-size:16px;font-weight:normal;letter-spacing:none;line-height:1.4=
+;text-align:left;mso-line-height-alt:1.375em;color:#000000;"><p style=3D"ma=
+rgin: 0 0 10px 0;"><a href=3D"http://url3243.email.openai.com/ls/click?upn=
+=3Du001.GyApCCuCEL-2BZgyWl1glfWIV4Y5VDGEJQEsOZPyTHRVZJrpz5LMYCS8LZ0xkHe4KtI=
+DF4VnXf4IFP6s3AR43-2Few-3D-3D93qX_NT633BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSmvyoRz=
+wF52O8FwEzgkqS83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRbSOgQm=
+yEw-2FJtxNJqZx1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYwryrWR4S83Fc=
+RDY-2Bq6cDtWU6ZXB7DSNJOjMRKi-2FAqLIUKMx9-2Fpqx1HckuBiwfDaRfddnhe7rlMWXaYJ9B=
+T07LIA1aEkkoMdT1nfJhNWvxPV9SZu7xCKEMHmJaJQLLnmNFthcs-2FwZORP3tCkjfQ0ON-2FVG=
+zd79BUMJOvXEeKzNlQ2Q54Zs7CABcnF4yCYxqQX2nuifmY2MB-2BgRuSS-2F8R9T0" target=
+=3D"_blank" rel=3D"noopener" style=3D"color: rgb(0, 104, 165); text-decorat=
+ion: none;">Check out the full thread on X from Agrim</a>, CTO of Niyam AI =
+(and Codex ambassador!) for an early wl1 demo, the repo, and notes on the b=
+uild.&nbsp;</p></div></div></td></tr><tr><td style=3D"font-size:0px;padding=
+:25px 25px 25px 25px;word-break:break-word;text-align:center;"><table width=
+=3D"95%" role=3D"none" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" sty=
+le=3D"border-top:solid 1px #AAAAAA;font-size:0;display:inline-block;line-he=
+ight:0;"><tr><td height=3D"0" style=3D"height:0;line-height:0;">&nbsp;</td>=
+</tr></table></td></tr><tr><td class=3D"text-container" style=3D"font-size:=
+0px;padding:25px 25px 15px 25px;word-break:break-word;text-align:center;"><=
+div class=3D"links-0068A5-underline"><div style=3D"font-family:Arial, sans-=
+serif;font-size:32px;font-weight:normal;letter-spacing:none;line-height:1.4=
+;text-align:center;mso-line-height-alt:2.813em;color:#0071CF;"><p style=3D"=
+margin: 0;">=F0=9F=93=A3 Insider scoop</p></div></div></td></tr><tr><td cla=
+ss=3D"text-container" style=3D"font-size:0px;padding:0px 25px 16px 25px;wor=
+d-break:break-word;text-align:center;"><div class=3D"links-0068A5-underline=
+"><div style=3D"font-family:Arial, sans-serif;font-size:14px;font-weight:no=
+rmal;letter-spacing:none;line-height:1.4;text-align:center;mso-line-height-=
+alt:1.25em;color:#000000;"><p style=3D"margin: 0 0 10px 0;">Go behind the s=
+cenes <span style=3D"font-family: 'OpenAI Sans', Arial, sans-serif;">with</=
+span> OpenAI engineers</p></div></div></td></tr><tr><td class=3D"text-conta=
+iner" style=3D"font-size:0px;padding:0px 25px 16px 25px;word-break:break-wo=
+rd;text-align:left;"><div class=3D"links-0071CF"><div style=3D"font-family:=
+Arial, sans-serif;font-size:16px;font-weight:normal;letter-spacing:none;lin=
+e-height:1.4;text-align:left;mso-line-height-alt:1.375em;color:#000000;"><p=
+ style=3D"margin: 0 0 10px 0;"><strong><a href=3D"http://url3243.email.open=
+ai.com/ls/click?upn=3Du001.GyApCCuCEL-2BZgyWl1glfWCtz7LLnf5-2BGekc3d3musQw1=
+at2ShdUOk4-2BhwSHJ1VqVUHc6x-2BL8urK3D3he-2B5mgWg-3D-3DdgV4_NT633BGz9DJpv6jY=
+mmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEzgkqS83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVYwpf=
+CkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxNJqZx1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI-2B=
+gpk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cDtWU6ZXB7DSNJOjMRKi-2FAqLMLbcp9CEZO-2BCht=
+YID6inz7kjvILjY666JfYkP9b5rcKPl63U1MbjyqyPwOYbp3HeGNDBUwwDxXhtoMObkUKdYmgCj=
+Hpwz-2FGdOP-2FWrbFpzasjv-2Fv-2BdSuckwOTfVmCJVJ-2F3s6M6-2F7Bi5wRHzgORtwIpF-2=
+FMbx71whj3YAj1vrq1OHq" target=3D"_blank" rel=3D"noopener" style=3D"color: r=
+gb(0, 113, 207); text-decoration: none;">Harness engineering</a>: leveragin=
+g Codex in an agent-first world</strong></p><p style=3D"margin: 0 0 10px 0;=
+">Note from the author: <em>=E2=80=9COur team has varied experience, and hu=
+mans can=E2=80=99t fully mind-meld. Codex can: when we encode =E2=80=98what=
+ good looks like=E2=80=99 in the repo, every run applies it consistently=E2=
+=80=94and the gains compound.=E2=80=9D</em></p><p style=3D"margin: 0 0 10px=
+ 0;">- Ryan Lopopolo, Member of Technical Staff at OpenAI.&nbsp;Keep up wit=
+h his work on <a href=3D"http://url3243.email.openai.com/ls/click?upn=3Du00=
+1.GyApCCuCEL-2BZgyWl1glfWNZ9O8wVPlTYt43i-2Fhi4DlDDzApjAo7t1siEbhZo6K-2ByLJx=
+q_NT633BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEzgkqS83t6BpHjTPhxz-2FuQ=
+6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxNJqZx1OSleWXGiGWxhrsegL=
+ZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cDtWU6ZXB7DSNJOjMRKi-2FA=
+qLJR3Vr0v-2FngfeC4C47PVsf9iF1wn-2BW7gBg3XHZoCWSDhkTbIEcWW96qfj6gnPqh9ZIzz79=
+eyiQNcPcz6nx1XXFm1KpvBAQpBi9MD7qvcaLxHU61LGYjdklQ4MjwPw-2B7iYclVC34mZCh2bH5=
+IAWMHcsINl-2F4O6FRFxYo8wa8xIxFq" target=3D"_blank" rel=3D"noopener" style=
+=3D"color: rgb(0, 113, 207); text-decoration: none;">X</a>.</p><p style=3D"=
+margin: 0 0 10px 0;">&nbsp;</p><p style=3D"margin: 0 0 10px 0;"><strong><a =
+href=3D"http://url3243.email.openai.com/ls/click?upn=3Du001.GyApCCuCEL-2BZg=
+yWl1glfWCtz7LLnf5-2BGekc3d3musQw5hOzn4Pw71kaZ7J-2BZ-2Fy0c0DVm2f6yrKuWfCSqZK=
+kAxQ-3D-3D3a6Y_NT633BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEzgkqS83t6B=
+pHjTPhxz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxNJqZx1OSle=
+WXGiGWxhrsegLZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cDtWU6ZXB7D=
+SNJOjMRKi-2FAqLIgBac0OhaPFcrYgqeFCytr0rrcy-2BrIIMZvsZnTYS2imTE-2BXiBX8t-2Bo=
+pyr8-2Bu1qjA-2BN3Gtm8F6-2BdwyZrcXh2pSqeC2mf6Hgsb8chH3FBRDvzPrgXTN9slii-2BeZ=
+F3AR0HeT-2BzPVv1gbqo4Bw0vFXSX96eOeAPf1HQWwrxeJI4mRP3" target=3D"_blank" rel=
+=3D"noopener" style=3D"color: rgb(0, 113, 207); text-decoration: none;">Ins=
+ide the Postgres Setup</a> Powering 800M ChatGPT Users</strong></p><p style=
+=3D"margin: 0 0 10px 0;">Note from the author:&nbsp;<em>=E2=80=9CBefore Ope=
+nAI, I learned the hard way that startups often over-engineer. Here, I=E2=
+=80=99ve been impressed by how far a deliberately simple setup=E2=80=94a si=
+ngle PostgreSQL writer=E2=80=94can scale with the right optimizations and d=
+iscipline. That inspired me to share what I=E2=80=99ve seen.=E2=80=9D&nbsp;=
+</em></p><p style=3D"margin: 0 0 10px 0;">- Bohan Zhang, Member of Technica=
+l Staff at OpenAI. K<span style=3D"background-color: transparent;">eep up w=
+ith his work on </span><a href=3D"http://url3243.email.openai.com/ls/click?=
+upn=3Du001.GyApCCuCEL-2BZgyWl1glfWNyUO2IlHCVqbjToLQ9r5EWScuswZGHLxVlu8fKo-2=
+FWmgRnCP_NT633BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEzgkqS83t6BpHjTPh=
+xz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxNJqZx1OSleWXGiGW=
+xhrsegLZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cDtWU6ZXB7DSNJOjM=
+RKi-2FAqLOoMXT98KC8krrZovyrezYHwfGk7ChzgThHdk5Ro7snCYF0bsetlBuzZN6V3M-2BakC=
+2L4J84x3xZk5crKLCH6vAkYUiSVaPArRAHKNud2ewzo6p8jTgbKXsyas7fJ4P9Jj4En9EPCzEoR=
+Be5VcCdDSi98pgzgfzxTkPJxdpmJZN07" target=3D"_blank" rel=3D"noopener" style=
+=3D"color: #0068A5; background-color: transparent; font-weight: 400; text-d=
+ecoration: none;">X</a><span style=3D"background-color: transparent;">.</sp=
+an></p><p style=3D"margin: 0 0 10px 0;">&nbsp;</p><p style=3D"margin: 0 0 1=
+0px 0;"><strong>What Actually Happens Inside an <a href=3D"http://url3243.e=
+mail.openai.com/ls/click?upn=3Du001.GyApCCuCEL-2BZgyWl1glfWCtz7LLnf5-2BGekc=
+3d3musQyaO6TXWlSKleuAwc73FQycUG4c3kN4-2FQ9ylyzUxcbmJj88Lmn2i0HMnd-2Fq1vSbOe=
+c-3D6EQw_NT633BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEzgkqS83t6BpHjTPh=
+xz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxNJqZx1OSleWXGiGW=
+xhrsegLZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cDtWU6ZXB7DSNJOjM=
+RKi-2FAqLJh9d0O9CxN1kWAw5bQWJsYpJUrnXWGusv0IwrvpV1Zg5i2KlBwYsXnRtPNYoPhR-2F=
+cD8hB1u3zYGTsY5nNs4LjcHWPTh8kSym60tKILE-2Fl5BBCFq42nww3BxXAY9vVX4zU6NlZCFoy=
+bWAqfT00E4HzaNGO7zPsU-2B0gjEtoBhosXM" target=3D"_blank" rel=3D"noopener" st=
+yle=3D"color: rgb(0, 113, 207); text-decoration: none;">AI Coding Agent</a>=
+ (We Unrolled It)</strong></p><p style=3D"margin: 0 0 10px 0;"><em>Note fro=
+m the author: =E2=80=9CDespite being on Codex CLI since the beginning, I le=
+arned a lot from putting this post together, so hopefully you will, too!=E2=
+=80=9D&nbsp;</em></p><p style=3D"margin: 0 0 10px 0;">- Michael Bolin, Memb=
+er of Technical Staff at OpenAI.&nbsp;Follow more of his journey on <a href=
+=3D"http://url3243.email.openai.com/ls/click?upn=3Du001.GyApCCuCEL-2BZgyWl1=
+glfWFxr-2FTqO-2FDN1JLslxddcCFbc5qLCVybjR4J-2F2GxYSIEYw-2B1P-2BZ-2FkmUA2vhuX=
+t-2Fvf-2Bw-3D-3D8Vuh_NT633BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEzgkq=
+S83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxNJqZ=
+x1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cDtWU=
+6ZXB7DSNJOjMRKi-2FAqLLWRjVvksyTOjl2Zz-2FJkqF-2BvtxX-2Fs1DmIFoYzOoUoKLFs6VpR=
+mbn9Kwmt-2BFU5HQVZFUo1F-2BbZ3afhiGeAF-2BG-2FTM8xxzUpRmjI1sbD2d7lzPvEwiskqHB=
+K1LkYgGfaIWNJCJQYlbrg9zh196arA-2FPHYqY6TvXTIy3ZKEDIEv6dyvE" target=3D"_blan=
+k" rel=3D"noopener" style=3D"color: rgb(0, 113, 207); text-decoration: none=
+;">Threads</a>.&nbsp;</p><p style=3D"margin: 0 0 10px 0;">&nbsp;</p><p styl=
+e=3D"margin: 0 0 10px 0;">Happy building and vibing,</p><p style=3D"margin:=
+ 0 0 10px 0;">The OpenAI Team</p></div></div></td></tr><tr><td style=3D"fon=
+t-size:0px;word-break:break-word;"><div style=3D"line-height:32px;height:32=
+px;mso-line-height-alt:32px;">&nbsp;</div></td></tr><tr><td style=3D"font-s=
+ize:0px;word-break:break-word;"><div style=3D"line-height:32px;height:32px;=
+mso-line-height-alt:32px;">&nbsp;</div></td></tr><tr><td><table align=3D"ce=
+nter" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation=
+" style=3D"width:100%;" class=3D"section"><tr><td align=3D"center" style=3D=
+"font-size:0px;text-align:center;vertical-align:top;padding:0px;word-break:=
+break-word;"><!--[if mso | IE]><table align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0"><tr><td><table role=3D"presentation" border=3D=
+"0" cellpadding=3D"0" cellspacing=3D"0"><tr><td style=3D"vertical-align:top=
+;width:600px;" ><![endif]--><div class=3D"mj-column-per-100 mj-outlook-grou=
+p-fix" style=3D"font-size:0px;text-align:left;direction:ltr;display:inline-=
+block;vertical-align:top;width:100%;"><table border=3D"0" cellpadding=3D"0"=
+ cellspacing=3D"0" role=3D"presentation" style=3D"background-color:#000000;=
+border-radius:0px;vertical-align:top;" width=3D"100%"><tr><td class=3D"img-=
+container" style=3D"font-size:0px;padding:10px 0px 0px 10px;word-break:brea=
+k-word;text-align:left;"><div style=3D"margin:0 auto 0 0;max-width:100px;">=
+<img alt height=3D"auto" width=3D"100" src=3D"https://client-data.knak.io/p=
+roduction/email_assets/688b6df4a8798/yJ6NbzQR07S7WTJ4AihjkS1wePkOCa6MzZz6bU=
+th.png?utm_source=3Demail:698cffb5d9ecd" style=3D"border:none;border-radius=
+:0px;outline:none;text-decoration:none;height:auto;width:100%;font-size:13p=
+x;display:block;" class=3D"border-radius-0pxpx"></div></td></tr></table></d=
+iv><!--[if mso | IE]></td></tr></table></td></tr></table><![endif]--></td><=
+/tr></table></td></tr><tr><td><table align=3D"center" border=3D"0" cellpadd=
+ing=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"background-color=
+:#000000;width:100%;" class=3D"section"><tr><td align=3D"center" style=3D"f=
+ont-size:0px;text-align:center;vertical-align:top;padding:0px;word-break:br=
+eak-word;"><div role=3D"none"><!--[if mso | IE]><table align=3D"center" bor=
+der=3D"0" cellpadding=3D"0" cellspacing=3D"0"><tr><td><table role=3D"presen=
+tation" border=3D"0" cellpadding=3D"0" cellspacing=3D"0"><tr><td style=3D"v=
+ertical-align:top;width:162px;" ><![endif]--><div class=3D"mj-column-per-27=
+ mj-outlook-group-fix" style=3D"font-size:0px;text-align:left;direction:ltr=
+;display:inline-block;vertical-align:top;width:100%;"><table border=3D"0" c=
+ellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"border-ra=
+dius:0px;vertical-align:top;" width=3D"100%"><tr><td class=3D"text-containe=
+r" style=3D"font-size:0px;padding:5px 0px 10px 25px;word-break:break-word;t=
+ext-align:left;"><div class=3D"links-FFFFFF-underline"><div style=3D"font-f=
+amily:Arial, sans-serif;font-size:10px;font-weight:normal;letter-spacing:no=
+ne;line-height:1.2;text-align:left;mso-line-height-alt:0.75em;color:#FFFFFF=
+;"><p style=3D"margin: 0;">1455 3rd Street<br>San Francisco CA 94158<br><a =
+href=3D"http://url3243.email.openai.com/asm/unsubscribe/?user_id=3D54382401=
+&amp;data=3D9GCECdhPVQl6Rok3yEN3Tm1OWzmwYUI3yqeh9gZral9oMDAwdTAwMIHsZTvrXV2=
+DJcM3-l3u_yhYXmsGIyOdvYbLvpN5kcxpjW2SgSiGEq8tklfhu-pLmF6uY8nTSn3v66GTCe-MhZ=
+iHKMJ1Awf-x1S3IcnkkAp7EWpB36UUOeyx1ZWlV1ELTv8pcwfxvjW35i3kYa6yENp62uCSPakgB=
+IzxDCYNOoe-0ougt5xnH4cAs2BNOS0tUnWdvq7snxZdjBOfYIW5vVeMG5yK3wUGUEr2MsRRBtHD=
+6wRaZaCywBzAyQEjSLNDFV9UaEPXDWkmANgz--BFDWGs-dhJPqfeBrr6kBmTCyqgpkjuns786h8=
+g_sTDAFs8wCvuQ_5RWy4XpXcyIXjYCK76n6ZH8vj3nYUqiq0AoyrW7oMaaP1PFaoZt3sydaMs90=
+BnTeUKY66lLjtFvtOijQtzR0HYvtbt9GPDZbbiT740D3aIBfrGkuQqljsSpPYpJtxA8nFKpz0L2=
+9d0vP78PMzKWq0T9H33gNZ_mHhNi7Ol" target=3D"_blank" rel=3D"noopener" style=
+=3D"color: rgb(255, 255, 255); text-decoration: underline;">Unsubscribe</a>=
+<br><a href=3D"http://url3243.email.openai.com/ls/click?upn=3Du001.GyApCCuC=
+EL-2BZgyWl1glfWAirIohvIxggL6IA1hhhod8H0yBQ-2FpFtysj14qT0a2S3PAgDgLJK2oaxzIl=
+5RyS-2Byw-3D-3DoJnG_NT633BGz9DJpv6jYmmTLvLe4vuI6Iyy8mZSmvyoRzwF52O8FwEzgkqS=
+83t6BpHjTPhxz-2FuQ6q1-2FnRlHCqKVYwpfCkkrmpaJ5kEZ2FpulNRbSOgQmyEw-2FJtxNJqZx=
+1OSleWXGiGWxhrsegLZoLyVBbMC6WwAxI-2Bgpk9xonhjXKNYwryrWR4S83FcRDY-2Bq6cDtWU6=
+ZXB7DSNJOjMRKi-2FAqLAb585QzIpotNTSRsdIrd99oARmm-2BqFeMqurkYi6z2jdYgRJ7JbScD=
+TgwHzNcn95gs69-2BkD3ij8bBUeWTHc1snD6bcUp2govd4nPKEnJLEJWoxiUog-2FjkCaDF9-2B=
+pAu3WNJDymhrzkVQsJbCsSEp-2B1F0ZOb3DLd-2FbjEz5x1bIZh2P" target=3D"_blank" re=
+l=3D"noopener" style=3D"color: rgb(255, 255, 255); text-decoration: underli=
+ne;">Privacy</a><br><br>OpenAI =C2=A9 2015=E2=80=932026</p></div></div></td=
+></tr></table></div><!--[if mso | IE]></td><td style=3D"vertical-align:bott=
+om;width:438px;" ><![endif]--><div class=3D"mj-column-per-73 mj-outlook-gro=
+up-fix" style=3D"font-size:0px;text-align:left;direction:ltr;display:inline=
+-block;vertical-align:bottom;width:100%;"><table border=3D"0" cellpadding=
+=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"border-radius:0px;v=
+ertical-align:bottom;" width=3D"100%"><tr><td class=3D"img-container" style=
+=3D"font-size:0px;padding:0px 25px 0px 0px;word-break:break-word;text-align=
+:left;"><div style=3D"margin:0 auto 0 0;max-width:413px;" class=3D"img-full=
+-width"><img alt height=3D"auto" width=3D"413" src=3D"https://client-data.k=
+nak.io/production/email_assets/688b6df4a8798/8AMlW5osNartYCfaxebKjsiOZu4wAY=
+HwuGzHigX9.png?utm_source=3Demail:698cffb5d9ecd" style=3D"border:none;outli=
+ne:none;text-decoration:none;height:auto;width:100%;font-size:13px;display:=
+block;"></div></td></tr></table></div><!--[if mso | IE]></td></tr></table><=
+/td></tr></table><![endif]--></div></td></tr></table></td></tr></table></di=
+v><!--[if mso | IE]></td></tr></table><![endif]--></td></tr></table></div><=
+!--[if mso | IE]></td></tr></table><![endif]--></div></td></tr></table></di=
+v><img src=3D"http://url3243.email.openai.com/wf/open?upn=3Du001.vkWYXGOpNX=
+CROlXe2tUaxKSuRmE0ng-2B4dh96RfIBRz19ISvyhImImXZ74HDEy1hUzkeHfo4ml5mNuYgSgh4=
+Y-2BS9cueNSSUz6-2BiFeOlNAIJEhmA8I8A2kj1GtaIegi06qbGyGPh7iwZWuOddstd-2F-2Bxw=
+jC3bQwWRixRvsXfUqoHiSgxANNUA9EmYeZsKc9LdpAkU143k0dKEFHbM4WCQ6ZGfXMwRtNwxURG=
+CnzUwA3ieJMcK0Of5ElGtMsj6x02hfPeSFeIbPmAID6Mq1vO4vQHlqQP9f8XTYBejUsS4kDgBx6=
+QWfhncW6zgs9xcdPcW91PCtxz0pk7ugN5BDyL-2Fo6aUOfMZWLBWj5M2twCzlwbOJIATL3BEuBu=
+E30d21e3bWDmSgcv3IUMlQSt2op-2FzTBNw-3D-3D" alt=3D"" width=3D"1" height=3D"1=
+" border=3D"0" style=3D"height:1px !important;width:1px !important;border-w=
+idth:0 !important;margin-top:0 !important;margin-bottom:0 !important;margin=
+-right:0 !important;margin-left:0 !important;padding-top:0 !important;paddi=
+ng-bottom:0 !important;padding-right:0 !important;padding-left:0 !important=
+;"/></body></html>
+--d6772dfde98ce2ba26e3197f08ba7ab62a1639205b657fb340bed71cb193--
